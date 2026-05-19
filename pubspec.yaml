@@ -2,8 +2,9 @@ name: fluent_epub
 publish_to: none
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.12.0
 
 workspace:
   - packages/server
+  - packages/shared
   - packages/client
