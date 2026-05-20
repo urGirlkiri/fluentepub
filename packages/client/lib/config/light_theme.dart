@@ -11,6 +11,12 @@ ThemeData lightTheme() {
     brightness: Brightness.light,
     scaffoldBackgroundColor: palette.platinum, 
 
+    iconTheme: IconThemeData(
+      color: palette.yaleBlue, 
+      size: 24.0,              
+      opacity: 0.9,           
+    ),
+
     textTheme: baseTextTheme.copyWith(
       bodyLarge: baseTextTheme.bodyLarge?.copyWith(color: palette.inkBlack),
       bodyMedium: baseTextTheme.bodyMedium?.copyWith(color: palette.inkBlack),

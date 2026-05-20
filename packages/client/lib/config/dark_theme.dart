@@ -4,17 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 
 ThemeData darkTheme() {
   const Palette palette = Palette();
-  
+
   final baseTextTheme = GoogleFonts.interTextTheme(ThemeData.dark().textTheme);
 
   return ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: palette.inkBlack,
 
+    iconTheme: IconThemeData(
+      color: palette.powderBlue,
+      size: 24.0,
+      opacity: 0.9,
+    ),
     textTheme: baseTextTheme.copyWith(
       bodyLarge: baseTextTheme.bodyLarge?.copyWith(color: palette.platinum),
       bodyMedium: baseTextTheme.bodyMedium?.copyWith(color: palette.platinum),
-      titleLarge: baseTextTheme.titleLarge?.copyWith(color: palette.platinum, fontWeight: FontWeight.bold),
+      titleLarge: baseTextTheme.titleLarge?.copyWith(
+        color: palette.platinum,
+        fontWeight: FontWeight.bold,
+      ),
     ),
 
     colorScheme: ColorScheme.dark(
@@ -49,7 +57,9 @@ ThemeData darkTheme() {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: palette.inkBlack,
-      hintStyle: GoogleFonts.inter(color: palette.platinum.withValues(alpha: .5)),
+      hintStyle: GoogleFonts.inter(
+        color: palette.platinum.withValues(alpha: .5),
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide.none,
