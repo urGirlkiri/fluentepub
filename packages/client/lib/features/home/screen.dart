@@ -21,8 +21,8 @@ class HomeScreen extends StatelessWidget {
               isDarkMode
                   ? 'assets/branding/512x512-dark.png'
                   : 'assets/branding/512x512.png',
-              width: 32,
-              height: 32,
+              width: 40,
+              height: 40,
             ),
             const SizedBox(width: 12),
             const Text('Fluent Epub'),
@@ -60,7 +60,8 @@ class HomeScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(
                     isDarkMode ? LucideIcons.sun : LucideIcons.moon,
-                    size: 32,
+                    size: 28,
+                    color: !isDarkMode ? palette.yaleBlue : Colors.amberAccent,
                   ),
                   onPressed: () {
                     AdaptiveTheme.of(context).toggleThemeMode();
