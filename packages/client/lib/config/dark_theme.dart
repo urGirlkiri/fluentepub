@@ -1,11 +1,21 @@
 import 'package:fluentepub/config/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ThemeData darkTheme() {
   const Palette palette = Palette();
+  
+  final baseTextTheme = GoogleFonts.interTextTheme(ThemeData.dark().textTheme);
+
   return ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: palette.inkBlack,
+
+    textTheme: baseTextTheme.copyWith(
+      bodyLarge: baseTextTheme.bodyLarge?.copyWith(color: palette.platinum),
+      bodyMedium: baseTextTheme.bodyMedium?.copyWith(color: palette.platinum),
+      titleLarge: baseTextTheme.titleLarge?.copyWith(color: palette.platinum, fontWeight: FontWeight.bold),
+    ),
 
     colorScheme: ColorScheme.dark(
       surface: palette.yaleBlue,
@@ -18,7 +28,7 @@ ThemeData darkTheme() {
       backgroundColor: palette.yaleBlue,
       elevation: 0,
       iconTheme: IconThemeData(color: palette.powderBlue),
-      titleTextStyle: TextStyle(
+      titleTextStyle: GoogleFonts.inter(
         color: palette.platinum,
         fontSize: 20,
         fontWeight: FontWeight.bold,
@@ -31,6 +41,7 @@ ThemeData darkTheme() {
         foregroundColor: palette.inkBlack,
         elevation: 4,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        textStyle: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
@@ -38,7 +49,7 @@ ThemeData darkTheme() {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: palette.inkBlack,
-      hintStyle: TextStyle(color: palette.platinum.withValues(alpha: .5)),
+      hintStyle: GoogleFonts.inter(color: palette.platinum.withValues(alpha: .5)),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide.none,
