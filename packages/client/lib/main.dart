@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluentepub/config/dark_theme.dart';
 import 'package:fluentepub/config/light_theme.dart';
 import 'package:fluentepub/features/home/screen.dart';
@@ -12,13 +13,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fluent Epub',
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme(),
-      darkTheme: darkTheme(),
-      themeMode: ThemeMode.system,
-      home: HomeScreen(),
+    return AdaptiveTheme(
+      light: lightTheme(),
+      dark: darkTheme(),
+      initial: AdaptiveThemeMode.system,
+      builder: (theme, darkTheme) => MaterialApp(
+        title: 'Fluent Epub',
+        debugShowCheckedModeBanner: false,
+        theme: theme,
+        darkTheme: darkTheme,
+        home: const HomeScreen(),
+      ),
     );
   }
 }

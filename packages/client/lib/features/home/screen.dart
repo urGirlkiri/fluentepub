@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluentepub/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -9,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
       appBar: AppBar(
         leading: Icon(LucideIcons.menu, size: 32),
@@ -55,6 +56,16 @@ class HomeScreen extends StatelessWidget {
                 Icon(LucideIcons.layoutGrid, size: 32),
                 const SizedBox(width: 12),
                 Icon(LucideIcons.layoutList, size: 32),
+                const SizedBox(width: 12),
+                IconButton(
+                  icon: Icon(
+                    isDarkMode ? LucideIcons.sun : LucideIcons.moon,
+                    size: 32,
+                  ),
+                  onPressed: () {
+                    AdaptiveTheme.of(context).toggleThemeMode();
+                  },
+                ),
               ],
             ),
           ),
