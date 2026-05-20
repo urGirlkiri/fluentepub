@@ -1,6 +1,6 @@
-import 'package:client/config/dark_theme.dart';
-import 'package:client/config/light_theme.dart';
-import 'package:client/features/home/screen.dart';
+import 'package:fluentepub/config/dark_theme.dart';
+import 'package:fluentepub/config/light_theme.dart';
+import 'package:fluentepub/features/home/screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

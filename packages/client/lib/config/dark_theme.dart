@@ -1,4 +1,4 @@
-import 'package:client/config/pallete.dart';
+import 'package:fluentepub/config/pallete.dart';
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme() {
@@ -8,18 +8,18 @@ ThemeData darkTheme() {
     scaffoldBackgroundColor: palette.inkBlack,
 
     colorScheme: ColorScheme.dark(
-      surface: palette.yaleBlue, 
-      primary: palette.powderBlue, 
-      onSurface: palette.platinum, 
-      secondary: palette.powderBlue, 
+      surface: palette.yaleBlue,
+      primary: palette.powderBlue,
+      onSurface: palette.platinum,
+      secondary: palette.powderBlue,
     ),
 
     appBarTheme: AppBarTheme(
-      backgroundColor: palette.yaleBlue, 
+      backgroundColor: palette.yaleBlue,
       elevation: 0,
-      iconTheme: IconThemeData(color: palette.powderBlue), 
+      iconTheme: IconThemeData(color: palette.powderBlue),
       titleTextStyle: TextStyle(
-        color: palette.platinum, 
+        color: palette.platinum,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
@@ -27,7 +27,7 @@ ThemeData darkTheme() {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: palette.powderBlue, 
+        backgroundColor: palette.powderBlue,
         foregroundColor: palette.inkBlack,
         elevation: 4,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -37,7 +37,7 @@ ThemeData darkTheme() {
 
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: palette.inkBlack, 
+      fillColor: palette.inkBlack,
       hintStyle: TextStyle(color: palette.platinum.withValues(alpha: .5)),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),

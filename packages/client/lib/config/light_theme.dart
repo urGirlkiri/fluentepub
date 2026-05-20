@@ -1,4 +1,4 @@
-import 'package:client/config/pallete.dart';
+import 'package:fluentepub/config/pallete.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme() {
