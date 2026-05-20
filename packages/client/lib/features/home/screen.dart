@@ -1,5 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluentepub/config/palette.dart';
+import 'package:fluentepub/features/home/widgets/sort_by.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -13,34 +14,43 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(LucideIcons.menu, size: 32),
+        leading: const Icon(LucideIcons.menu, size: 40),
         title: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
               isDarkMode
                   ? 'assets/branding/512x512-dark.png'
                   : 'assets/branding/512x512.png',
-              width: 40,
-              height: 40,
+              width: 48,
+              height: 48,
             ),
             const SizedBox(width: 12),
             const Text('Fluent Epub'),
             const SizedBox(width: 8),
             Expanded(
               child: Center(
-                child: Container(
-                  height: 40,
+                child: SizedBox(
+                  height: 50,
                   width: 600,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: palette.yaleBlue, width: 1),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: const TextField(
+                  child: TextField(
                     decoration: InputDecoration(
-                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.surface,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 8),
+                      hintText: 'Search books...',
+                      hintStyle: const TextStyle(fontSize: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 12,
+                      ),
                     ),
                   ),
                 ),
@@ -50,12 +60,12 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                Icon(LucideIcons.layoutGrid, size: 32),
+                const Icon(LucideIcons.layoutGrid, size: 32),
                 const SizedBox(width: 12),
-                Icon(LucideIcons.layoutList, size: 32),
+                const Icon(LucideIcons.layoutList, size: 32),
                 const SizedBox(width: 12),
                 IconButton(
                   icon: Icon(
@@ -71,8 +81,35 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+        toolbarHeight: 100.0,
       ),
-      body: const Center(child: Text('Under Construction')),
+      body: const Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Sort by ',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                SizedBox(width: 12),
+                SortBy(),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                'Under Construction',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
