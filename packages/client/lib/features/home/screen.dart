@@ -8,13 +8,21 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       appBar: AppBar(
         leading: Icon(LucideIcons.menu, size: 32),
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/branding/512x512.png', width: 32, height: 32),
+            Image.asset(
+              isDarkMode
+                  ? 'assets/branding/512x512-dark.png'
+                  : 'assets/branding/512x512.png',
+              width: 32,
+              height: 32,
+            ),
             const SizedBox(width: 12),
             const Text('Fluent Epub'),
             const SizedBox(width: 8),
