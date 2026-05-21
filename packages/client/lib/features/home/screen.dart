@@ -1,7 +1,8 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluentepub/config/palette.dart';
 import 'package:fluentepub/features/home/widgets/new_document.dart';
-import 'package:fluentepub/features/home/widgets/recent_documents/index.dart';
+import 'package:fluentepub/features/home/widgets/recent_documents.dart';
+import 'package:fluentepub/features/home/widgets/sort_by.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:fluentepub/widgets/logo.dart';
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
         leading: EDrawerButton(),
         title: Row(
           children: [
-           Logo(size: 48),
+            Logo(size: 48),
             const SizedBox(width: 12),
             const Text('Fluent Epub'),
             const SizedBox(width: 8),
@@ -36,7 +37,9 @@ class HomeScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: isDarkMode ? theme.colorScheme.surface : palette.yaleBlue,
+                          color: isDarkMode
+                              ? theme.colorScheme.surface
+                              : palette.yaleBlue,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -84,21 +87,34 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 100.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 24, top: 32, ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const NewDocument(),
-                const SizedBox(height: 40),
-                const RecentDocuments(),
-              ],
+        padding: const EdgeInsets.only(left: 24, top: 32, right: 24),
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(child: NewDocument()),
+            const SliverToBoxAdapter(child: SizedBox(height: 40)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Recents', style: TextStyle(fontSize: 18)),
+                    Row(
+                      children: [
+                        const Text(
+                          'Sort by ',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(width: 12),
+                        SortBy(),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
+            const RecentDocuments(),
+          ],
         ),
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:fluentepub/config/palette.dart';
-import 'package:fluentepub/features/home/widgets/recent_documents/sort_by.dart';
 import 'package:flutter/material.dart';
 
 class RecentDocuments extends StatelessWidget {
@@ -109,110 +108,69 @@ class RecentDocuments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    bool isDarkMode = theme.brightness == Brightness.dark;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SliverGrid.builder(
+      itemCount: recentNovels.length,
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 300, 
+        mainAxisExtent: 470,
+        crossAxisSpacing: 14,
+        mainAxisSpacing: 20,
+      ),
+      itemBuilder: (context, index) {
+        final novel = recentNovels[index];
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Recents',
-              style: TextStyle(fontSize: 18),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Sort by ',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: theme.colorScheme.onSurface.withValues(alpha: .1),
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
                     ),
-                    const SizedBox(width: 12),
-                    SortBy(),
                   ],
                 ),
-              ],
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    novel['coverUrl']!,
+                    fit: BoxFit.cover,
+                    cacheWidth: 300,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Placeholder(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              novel['title']!,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              novel['author']!,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: TextStyle(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize: 13,
+              ),
             ),
           ],
-        ),
-        const SizedBox(height: 16),
-
-        Wrap(
-          spacing: 14,
-          runSpacing: 50,
-          children: [
-            ...recentNovels.map((novel) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 300,
-                    height: 400,
-                    decoration: BoxDecoration(
-                      color: isDarkMode
-                          ? const Color(0xFF121214)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: theme.colorScheme.onSurface.withValues(
-                          alpha: .1,
-                        ),
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 6,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        novel['coverUrl']!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Placeholder()
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 220,
-                    child: Text(
-                      novel['title']!,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  SizedBox(
-                    width: 220,
-                    child: Text(
-                      novel['author']!,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        color: theme.colorScheme.onSurface.withValues(
-                          alpha: 0.6,
-                        ),
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }),
-          ],
-        ),
-      ],
+        );
+      },
     );
   }
 }
