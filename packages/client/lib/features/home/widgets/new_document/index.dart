@@ -1,4 +1,5 @@
 import 'package:fluentepub/config/theme/palette.dart';
+import 'package:fluentepub/features/home/widgets/new_document/new_card.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -48,11 +49,6 @@ class NewDocument extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // const Text(
-        //   'Start afresh or import new document',
-        //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-        // ),
-        // const SizedBox(height: 16),
 
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -61,25 +57,7 @@ class NewDocument extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Container(
-                    width: 220,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: isDarkMode
-                          ? const Color(0xFF121214)
-                          : Colors.white,
-                      border: Border.all(
-                        color: theme.colorScheme.primary,
-                        width: .5,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      LucideIcons.plusDir,
-                      size: 70,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
+                const NewCard(),
                   const SizedBox(height: 8),
                   const Text(
                     'Blank Document',

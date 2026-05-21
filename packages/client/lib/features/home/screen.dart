@@ -1,6 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluentepub/config/theme/palette.dart';
-import 'package:fluentepub/features/home/widgets/new_document.dart';
+import 'package:fluentepub/features/home/widgets/new_document/index.dart';
 import 'package:fluentepub/features/home/widgets/recent_documents.dart';
 import 'package:fluentepub/features/home/widgets/sort_by.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
