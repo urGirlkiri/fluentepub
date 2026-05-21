@@ -15,7 +15,7 @@ class _SortByState extends State<SortBy> {
   static const List<String> filters = <String>[
     'Last Read',
     'Title (A-Z)',
-    'Date Added',
+    'Recently Added',
     'Last Modified',
   ];
 

@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: theme.colorScheme.surface,
+                          color: isDarkMode ? theme.colorScheme.surface : palette.yaleBlue,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(

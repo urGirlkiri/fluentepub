@@ -96,7 +96,7 @@ class NewDocument extends StatelessWidget {
                     height: 300,
                     decoration: BoxDecoration(
                       color: isDarkMode
-                          ? const Color(0xFF121214)
+                          ? theme.colorScheme.onSecondary
                           : Colors.white,
                       border: Border.all(
                         color: theme.colorScheme.primary,
