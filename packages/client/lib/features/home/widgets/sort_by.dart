@@ -12,7 +12,7 @@ class SortBy extends StatefulWidget {
 }
 
 class _SortByState extends State<SortBy> {
-  static const List<String> list = <String>[
+  static const List<String> filters = <String>[
     'Last Read',
     'Title (A-Z)',
     'Date Added',
@@ -20,10 +20,10 @@ class _SortByState extends State<SortBy> {
   ];
 
   static final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(
-    list.map<MenuEntry>((String name) => MenuEntry(value: name, label: name)),
+    filters.map<MenuEntry>((String name) => MenuEntry(value: name, label: name)),
   );
 
-  String dropdownValue = list.first;
+  String dropdownValue = filters.first;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _SortByState extends State<SortBy> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: DropdownMenu<String>(
-        initialSelection: list.first,
+        initialSelection: filters.first,
         inputDecorationTheme:  InputDecorationTheme(
           border: InputBorder.none,
           outlineBorder:  BorderSide.none,
