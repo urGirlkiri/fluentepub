@@ -25,6 +25,8 @@ dependencies:
   flutter_svg: ^2.3.0
   adaptive_theme: ^3.7.2
   go_router: ^17.2.3
+  archive: ^4.0.9
+  super_editor: ^0.3.0-dev.51
 
 dev_dependencies:
   flutter_test:

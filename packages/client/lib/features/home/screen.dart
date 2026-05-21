@@ -163,7 +163,7 @@ class HomeScreen extends StatelessWidget {
                   height: 80,
                   child: Row(
                     children: [
-                      Icon(LucideIcons.play),
+                      Icon(LucideIcons.bookText, size: 32,),
                       SizedBox(width: 10),
                       Text('Continue Reading'),
                     ],

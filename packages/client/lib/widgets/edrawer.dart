@@ -1,5 +1,4 @@
 import 'package:fluentepub/config/router.dart';
-import 'package:fluentepub/config/theme/palette.dart';
 import 'package:fluentepub/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +12,6 @@ class LinkItem {
 }
 
 class EDrawer extends StatelessWidget {
-  static const Palette palette = Palette();
   static const List<LinkItem> linkItems = [
     LinkItem(icon: LucideIcons.hardDriveUpload, name: "Cloud Sync"),
   ];
