@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 100.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 100, right: 24, top: 32),
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(

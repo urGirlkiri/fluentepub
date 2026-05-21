@@ -9,6 +9,11 @@ class NewDocument extends StatelessWidget {
 
   static List<Map<String, dynamic>> templates = [
     {
+      'title': 'Novel',
+      'icon': LucideIcons.bookCopy,
+      'gradient': const [Color(0xFF344966), Color(0xFF1F2D3E)],
+    },
+    {
       'title': 'Fiction',
       'icon': LucideIcons.bookOpen,
       'gradient': const [Color(0xFF344966), Color(0xFF1F2D3E)],
@@ -41,12 +46,13 @@ class NewDocument extends StatelessWidget {
     bool isDarkMode = theme.brightness == Brightness.dark;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Start afresh or import new document',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 16),
+        // const Text(
+        //   'Start afresh or import new document',
+        //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+        // ),
+        // const SizedBox(height: 16),
 
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
