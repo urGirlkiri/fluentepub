@@ -12,25 +12,21 @@ class NewCard extends StatefulWidget {
 
 class _NewCardState extends State<NewCard> {
   bool _isHovered = false;
-  bool _isClicked = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final backgroundColor = _isClicked
-        ? theme.colorScheme.surface
-        : _isHovered
+    final backgroundColor = _isHovered
         ? theme.colorScheme.secondary
         : theme.colorScheme.surface;
 
-    final accentColor = _isClicked
+    final accentColor = _isHovered
         ? theme.colorScheme.onSurface
         : theme.colorScheme.primary;
 
     return GestureDetector(
       onTap: () => setState(() {
-        _isClicked = true;
         context.pushNamed(Routes.newBlankDoc);
       }),
       child: MouseRegion(

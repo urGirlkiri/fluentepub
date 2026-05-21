@@ -1,6 +1,8 @@
+import 'package:fluentepub/config/router.dart';
 import 'package:fluentepub/config/theme/palette.dart';
 import 'package:fluentepub/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class LinkItem {
@@ -28,22 +30,25 @@ class EDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: SizedBox(
-              height: 100,
-              child: Row(
-                children: [
-                  Logo(size: 48),
-                  const SizedBox(width: 12),
-                  const Text(
-                    'Fluent Epub',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400,
+          GestureDetector(
+            onTap: () => context.pushNamed(Routes.home),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: SizedBox(
+                height: 100,
+                child: Row(
+                  children: [
+                    Logo(size: 48),
+                    const SizedBox(width: 12),
+                    const Text(
+                      'Fluent Epub',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

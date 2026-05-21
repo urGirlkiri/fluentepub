@@ -90,10 +90,7 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 24, top: 32),
         child: CustomScrollView(
           slivers: [
-            const SliverToBoxAdapter(child: Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: NewDocument(),
-            )),
+            const SliverToBoxAdapter(child: NewDocument()),
             const SliverToBoxAdapter(child: SizedBox(height: 40)),
             SliverToBoxAdapter(
               child: Padding(
@@ -116,10 +113,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 24.0),
-              child: const RecentDocuments(),
-            ),
+            const RecentDocuments(),
           ],
         ),
       ),

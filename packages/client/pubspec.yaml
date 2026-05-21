@@ -41,6 +41,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/branding/
+    - assets/images/
 
 flutter_launcher_icons:
   image_path: "assets/branding/1024x1024.png"
