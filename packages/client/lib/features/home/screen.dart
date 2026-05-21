@@ -87,14 +87,17 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 100.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 24, top: 32, right: 24),
+        padding: const EdgeInsets.only(left: 24, top: 32),
         child: CustomScrollView(
           slivers: [
-            const SliverToBoxAdapter(child: NewDocument()),
+            const SliverToBoxAdapter(child: Padding(
+              padding: EdgeInsets.only(right: 10.0),
+              child: NewDocument(),
+            )),
             const SliverToBoxAdapter(child: SizedBox(height: 40)),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
+                padding: const EdgeInsets.only(bottom: 16.0, right: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -113,8 +116,68 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const RecentDocuments(),
+            Padding(
+              padding: const EdgeInsets.only(right: 24.0),
+              child: const RecentDocuments(),
+            ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: theme.colorScheme.surface,
+        height: 80,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              SizedBox(width: 12),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Kai\'s Geness ',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    VerticalDivider(),
+                    Row(
+                      children: [
+                        Text(
+                          'p.12',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '/',
+                          style: TextStyle(color: theme.colorScheme.primary),
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          '222',
+                          style: TextStyle(color: theme.colorScheme.primary),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const Spacer(),
+
+              ElevatedButton(
+                onPressed: () {},
+                child: SizedBox(
+                  height: 80,
+                  child: Row(
+                    children: [
+                      Icon(LucideIcons.play),
+                      SizedBox(width: 10),
+                      Text('Continue Reading'),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
