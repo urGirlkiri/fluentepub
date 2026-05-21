@@ -175,6 +175,7 @@ class RecentDocuments extends StatelessWidget {
                       child: Image.network(
                         novel['coverUrl']!,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Placeholder()
                       ),
                     ),
                   ),

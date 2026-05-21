@@ -2,6 +2,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluentepub/config/palette.dart';
 import 'package:fluentepub/features/home/widgets/new_document.dart';
 import 'package:fluentepub/features/home/widgets/recent_documents/index.dart';
+import 'package:fluentepub/widgets/edrawer.dart';
+import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -15,8 +17,9 @@ class HomeScreen extends StatelessWidget {
     bool isDarkMode = theme.brightness == Brightness.dark;
 
     return Scaffold(
+      drawer: EDrawer(),
       appBar: AppBar(
-        leading: const Icon(LucideIcons.menu, size: 40),
+        leading: EDrawerButton(),
         title: Row(
           children: [
             Image.asset(
@@ -86,17 +89,20 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 100.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
+        padding: const EdgeInsets.only(left: 24, top: 32, ),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const NewDocument(),
-              const SizedBox(height: 40),
-              const RecentDocuments(),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(right: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const NewDocument(),
+                const SizedBox(height: 40),
+                const RecentDocuments(),
+              ],
+            ),
           ),
         ),
       ),
