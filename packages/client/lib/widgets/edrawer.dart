@@ -1,4 +1,4 @@
-import 'package:fluentepub/config/palette.dart';
+import 'package:fluentepub/config/theme/palette.dart';
 import 'package:fluentepub/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';

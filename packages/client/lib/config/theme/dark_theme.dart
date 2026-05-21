@@ -1,4 +1,4 @@
-import 'package:fluentepub/config/palette.dart';
+import 'package:fluentepub/config/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
