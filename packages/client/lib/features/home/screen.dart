@@ -1,4 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:fluentepub/config/router.dart';
 import 'package:fluentepub/config/theme/palette.dart';
 import 'package:fluentepub/features/home/widgets/new_document/index.dart';
 import 'package:fluentepub/features/home/widgets/recent_documents.dart';
@@ -7,6 +8,7 @@ import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:fluentepub/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -158,7 +160,7 @@ class HomeScreen extends StatelessWidget {
               const Spacer(),
 
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.pushNamed(Routes.workspace),
                 child: SizedBox(
                   height: 80,
                   child: Row(

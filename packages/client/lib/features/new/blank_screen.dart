@@ -1,3 +1,4 @@
+import 'package:fluentepub/config/router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -94,7 +95,7 @@ class NewBlankDocument extends StatelessWidget {
                     ),
                     SizedBox(width: 12),
                     ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () => context.replaceNamed(Routes.workspace),
                       child: Row(
                         children: [
                           Icon(LucideIcons.squarePen, size: 24),
