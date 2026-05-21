@@ -20,7 +20,9 @@ class _SortByState extends State<SortBy> {
   ];
 
   static final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(
-    filters.map<MenuEntry>((String name) => MenuEntry(value: name, label: name)),
+    filters.map<MenuEntry>(
+      (String name) => MenuEntry(value: name, label: name),
+    ),
   );
 
   String dropdownValue = filters.first;
@@ -35,9 +37,12 @@ class _SortByState extends State<SortBy> {
       ),
       child: DropdownMenu<String>(
         initialSelection: filters.first,
-        inputDecorationTheme:  InputDecorationTheme(
+        requestFocusOnTap: false,
+        enableSearch: false,
+        enableFilter: false,
+        inputDecorationTheme: InputDecorationTheme(
           border: InputBorder.none,
-          outlineBorder:  BorderSide.none,
+          outlineBorder: BorderSide.none,
           activeIndicatorBorder: BorderSide.none,
           disabledBorder: InputBorder.none,
           errorBorder: InputBorder.none,
