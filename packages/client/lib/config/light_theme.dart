@@ -11,6 +11,10 @@ ThemeData lightTheme() {
     brightness: Brightness.light,
     scaffoldBackgroundColor: palette.platinum, 
 
+    dividerTheme: DividerThemeData(
+      color: palette.yaleBlue,
+    ),
+
     iconTheme: IconThemeData(
       color: palette.yaleBlue, 
       size: 24.0,              

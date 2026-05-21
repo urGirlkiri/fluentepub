@@ -11,6 +11,10 @@ ThemeData darkTheme() {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: palette.inkBlack,
 
+    dividerTheme: DividerThemeData(
+      color: palette.inkBlack,
+    ),
+
     iconTheme: IconThemeData(
       color: palette.powderBlue,
       size: 24.0,

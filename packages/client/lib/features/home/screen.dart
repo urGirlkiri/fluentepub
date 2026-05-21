@@ -4,6 +4,7 @@ import 'package:fluentepub/features/home/widgets/new_document.dart';
 import 'package:fluentepub/features/home/widgets/recent_documents/index.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
+import 'package:fluentepub/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -22,13 +23,7 @@ class HomeScreen extends StatelessWidget {
         leading: EDrawerButton(),
         title: Row(
           children: [
-            Image.asset(
-              isDarkMode
-                  ? 'assets/branding/512x512-dark.png'
-                  : 'assets/branding/512x512.png',
-              width: 48,
-              height: 48,
-            ),
+           Logo(size: 48),
             const SizedBox(width: 12),
             const Text('Fluent Epub'),
             const SizedBox(width: 8),
