@@ -45,6 +45,13 @@ class EDrawer extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: IconButton(
+                        onPressed: Navigator.of(context).pop,
+                         icon: Icon(LucideIcons.x, size: 24,)),
+                    )
                   ],
                 ),
               ),
