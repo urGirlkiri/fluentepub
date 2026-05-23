@@ -191,7 +191,7 @@ class NewBlankDocument extends StatelessWidget {
                 ),
               ),
               Switch(
-                value: true,
+                value: false,
                 activeThumbColor: theme.colorScheme.primary,
                 onChanged: (value) => {},
               ),
