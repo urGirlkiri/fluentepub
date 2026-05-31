@@ -41,7 +41,7 @@ class AppDatabase extends _$AppDatabase {
           DocumentsCompanion.insert(
             title: 'FluentEpub Documentation',
             author: Value('Kiri'),
-            publisher: Value('Hack Club'),
+            publisher: Value('YSWS'),
             rtl: Value(false),
           ),
         );
