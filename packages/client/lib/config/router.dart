@@ -10,7 +10,7 @@ class Routes {
   static const String newBlankDocRoute = '/new';
   static const String newBlankDoc = 'new';
 
-  static const String workspaceRoute = '/workspace';
+  static const String workspaceRoute = '/workspace:id';
   static const String workspace = 'workspace';
 }
 
@@ -26,7 +26,11 @@ final router = GoRouter(
     GoRoute(
       name: Routes.workspace,
       path: Routes.workspaceRoute,
-      builder: (context, state) => WorkSpace(),
+      builder: (context, state) {
+        final documentId = int.parse(state.pathParameters['id']!);
+
+        return WorkSpace(documentId: documentId);
+      },
     ),
 
     GoRoute(

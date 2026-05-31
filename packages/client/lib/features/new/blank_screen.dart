@@ -76,7 +76,7 @@ class NewBlankDocument extends StatelessWidget {
                   ),
                   const SizedBox(width: 16),
                   ElevatedButton.icon(
-                    onPressed: () => context.replaceNamed(Routes.workspace),
+                    onPressed: () => context.replaceNamed(Routes.workspace, pathParameters: {'id': '10'} ),
                     icon: const Icon(LucideIcons.squarePen, size: 18),
                     label: const Text("Create"),
                   ),

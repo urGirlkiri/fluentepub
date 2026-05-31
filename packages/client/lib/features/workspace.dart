@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class WorkSpace extends StatefulWidget {
-  const WorkSpace({super.key});
+  final int documentId; 
+  const WorkSpace({super.key, required this.documentId});
 
   @override
   State<WorkSpace> createState() => _WorkSpaceState();
