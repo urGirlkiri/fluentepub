@@ -44,7 +44,7 @@ jobs:
 
       - name: Build Web
         working-directory: packages/client
-        run: flutter build web --base-href "/fluentepub/"
+        run: flutter build web --base-href "/"
 
       - name: Deploy to GitHub Pages
         continue-on-error: true 
@@ -52,3 +52,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./packages/client/build/web
+          cname: fluentepub.app
