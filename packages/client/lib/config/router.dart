@@ -1,9 +1,13 @@
 import 'package:fluentepub/features/home/screen.dart';
 import 'package:fluentepub/features/new/blank_screen.dart';
+import 'package:fluentepub/features/splash/screen.dart';
 import 'package:fluentepub/features/workspace.dart';
 import 'package:go_router/go_router.dart';
 
 class Routes {
+  static const String splashRoute = '/splash';
+  static const String splash = 'splash';
+
   static const String homeRoute = '/';
   static const String home = 'home';
 
@@ -15,8 +19,13 @@ class Routes {
 }
 
 final router = GoRouter(
-  initialLocation: Routes.homeRoute,
+  initialLocation: Routes.splashRoute,
   routes: [
+    GoRoute(
+      name: Routes.splash,
+      path: Routes.splashRoute,
+      builder: (context, state) => const SplashScreen(),
+    ),
     GoRoute(
       name: Routes.home,
       path: Routes.homeRoute,
