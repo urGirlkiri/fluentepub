@@ -1,11 +1,11 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:fluentepub/config/router.dart';
-import 'package:fluentepub/config/theme/dark_theme.dart';
-import 'package:fluentepub/config/theme/light_theme.dart';
+import 'package:fluentepub/fluent_epub.dart';
+import 'package:fluentepub/config/providers/document.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'dart:developer' as dev;
+
+import 'package:provider/provider.dart';
 
 void main() {
   Logger.root.level = kDebugMode ? Level.FINE : Level.INFO;
@@ -17,25 +17,11 @@ void main() {
       name: record.loggerName,
     );
   });
-  runApp(const FluentEpub());
-}
-
-class FluentEpub extends StatelessWidget {
-  const FluentEpub({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AdaptiveTheme(
-      light: lightTheme(),
-      dark: darkTheme(),
-      initial: AdaptiveThemeMode.system,
-      builder: (theme, darkTheme) => MaterialApp.router(
-        title: 'Fluent Epub',
-        debugShowCheckedModeBanner: false,
-        theme: theme,
-        darkTheme: darkTheme,
-        routerConfig: router,
-      ),
-    );
-  }
+  
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => DocumentProvider(),
+      child: const FluentEpub(),
+    ),
+  );
 }
