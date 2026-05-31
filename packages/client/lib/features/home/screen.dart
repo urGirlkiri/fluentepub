@@ -1,8 +1,10 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/router.dart';
 import 'package:fluentepub/config/theme/palette.dart';
+import 'package:fluentepub/database/index.dart';
 import 'package:fluentepub/features/home/widgets/new_document/index.dart';
-import 'package:fluentepub/features/home/widgets/recent_documents.dart';
+import 'package:fluentepub/features/home/widgets/recent_doc.dart';
 import 'package:fluentepub/features/home/widgets/sort_by.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
@@ -19,6 +21,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     bool isDarkMode = theme.brightness == Brightness.dark;
+    final selectedDoc = context.watchDoc.selectedDocument;
+    final db = context.db;
 
     return Scaffold(
       drawer: EDrawer(),
@@ -41,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                         borderSide: BorderSide(
                           color: isDarkMode
                               ? theme.colorScheme.surface
-                              : palette.yaleBlue,
+                              : HomeScreen.palette.yaleBlue,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -76,7 +80,9 @@ class HomeScreen extends StatelessWidget {
                   icon: Icon(
                     isDarkMode ? LucideIcons.sun : LucideIcons.moon,
                     size: 28,
-                    color: !isDarkMode ? palette.yaleBlue : Colors.amberAccent,
+                    color: !isDarkMode
+                        ? HomeScreen.palette.yaleBlue
+                        : Colors.amberAccent,
                   ),
                   onPressed: () {
                     AdaptiveTheme.of(context).toggleThemeMode();
@@ -89,7 +95,7 @@ class HomeScreen extends StatelessWidget {
         toolbarHeight: 100.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 24, top: 32),
+        padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
         child: CustomScrollView(
           slivers: [
             const SliverToBoxAdapter(child: NewDocument()),
@@ -115,67 +121,115 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const RecentDocuments(),
+            StreamBuilder<List<Document>>(
+              stream: db.select(db.documents).watch(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const SliverToBoxAdapter(
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(32.0),
+                        child: Text(
+                          "Your library is empty. Create or import a document above.",
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                final documents = snapshot.data!;
+                return SliverGrid.builder(
+                  itemCount: documents.length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 300,
+                    mainAxisExtent: 350,
+                    crossAxisSpacing: 14,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemBuilder: (context, index) {
+                    final novel = documents[index];
+                    return RecentDocCard(
+                      novel: novel,
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        color: theme.colorScheme.surface,
-        height: 80,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              SizedBox(width: 12),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
+      bottomNavigationBar: selectedDoc == null
+          ? const SizedBox.shrink()
+          : Container(
+              color: theme.colorScheme.surface,
+              height: 80,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Text(
-                      'Kai\'s Geness ',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                    SizedBox(width: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            selectedDoc.title,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          VerticalDivider(),
+                          Row(
+                            children: [
+                              Text(
+                                'p.12',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                '/',
+                                style: TextStyle(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                '222',
+                                style: TextStyle(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    VerticalDivider(),
-                    Row(
-                      children: [
-                        Text(
-                          'p.12',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+
+                    const Spacer(),
+
+                    ElevatedButton(
+                      onPressed: () => context.pushNamed(
+                        Routes.workspace,
+                        pathParameters: {'id': selectedDoc.id.toString()},
+                      ),
+                      child: SizedBox(
+                        height: 80,
+                        child: Row(
+                          children: [
+                            Icon(LucideIcons.bookText, size: 32),
+                            SizedBox(width: 10),
+                            Text('Continue Reading'),
+                          ],
                         ),
-                        Text(
-                          '/',
-                          style: TextStyle(color: theme.colorScheme.primary),
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          '222',
-                          style: TextStyle(color: theme.colorScheme.primary),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ),
-
-              const Spacer(),
-
-              ElevatedButton(
-                onPressed: () => context.pushNamed(Routes.workspace),
-                child: SizedBox(
-                  height: 80,
-                  child: Row(
-                    children: [
-                      Icon(LucideIcons.bookText, size: 32,),
-                      SizedBox(width: 10),
-                      Text('Continue Reading'),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

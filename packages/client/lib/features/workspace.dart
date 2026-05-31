@@ -1,10 +1,13 @@
+import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class WorkSpace extends StatefulWidget {
-  final int documentId; 
+  final int documentId;
+
   const WorkSpace({super.key, required this.documentId});
 
   @override
@@ -12,8 +15,36 @@ class WorkSpace extends StatefulWidget {
 }
 
 class _WorkSpaceState extends State<WorkSpace> {
+  final Logger logger = Logger('WorkSpace');
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDocumentFromUrl();
+  }
+
+  Future<void> _loadDocumentFromUrl() async {
+    final provider = context.readDoc;
+    
+    if (provider.selectedDocument?.id != widget.documentId) {
+      final docFromDb = await (context.db.select(context.db.documents)
+            ..where((d) => d.id.equals(widget.documentId)))
+          .getSingleOrNull();
+      
+      provider.setDocument(docFromDb);
+    }
+    
+    setState(() => _isLoading = false);
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    final currentBook = context.watchDoc.selectedDocument!;
 
     return Scaffold(
       appBar: AppBar(
@@ -70,6 +101,11 @@ class _WorkSpaceState extends State<WorkSpace> {
               child: Row(children: [Icon(LucideIcons.textSearch, size: 24)]),
             ),
 
+            const Spacer(),
+            Text(
+              currentBook.title,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
             const Spacer(),
             ElevatedButton(
               onPressed: () => context.goNamed(Routes.home),
