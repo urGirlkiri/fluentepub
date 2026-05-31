@@ -15,6 +15,9 @@ class Documents extends Table {
   TextColumn get country => text().nullable()();
 
   BoolColumn get rtl => boolean().withDefault(const Constant(false))();
+  BoolColumn get favourite => boolean().withDefault(const Constant(false))();
+
+  RealColumn get progress => real().withDefault(const Constant(0.0))();
   
   DateTimeColumn get lastModified => dateTime().withDefault(currentDateAndTime)();
 }

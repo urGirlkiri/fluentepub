@@ -119,6 +119,33 @@ class $DocumentsTable extends Documents
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _favouriteMeta = const VerificationMeta(
+    'favourite',
+  );
+  @override
+  late final GeneratedColumn<bool> favourite = GeneratedColumn<bool>(
+    'favourite',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("favourite" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _progressMeta = const VerificationMeta(
+    'progress',
+  );
+  @override
+  late final GeneratedColumn<double> progress = GeneratedColumn<double>(
+    'progress',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.0),
+  );
   static const VerificationMeta _lastModifiedMeta = const VerificationMeta(
     'lastModified',
   );
@@ -143,6 +170,8 @@ class $DocumentsTable extends Documents
     publisher,
     country,
     rtl,
+    favourite,
+    progress,
     lastModified,
   ];
   @override
@@ -216,6 +245,18 @@ class $DocumentsTable extends Documents
         rtl.isAcceptableOrUnknown(data['rtl']!, _rtlMeta),
       );
     }
+    if (data.containsKey('favourite')) {
+      context.handle(
+        _favouriteMeta,
+        favourite.isAcceptableOrUnknown(data['favourite']!, _favouriteMeta),
+      );
+    }
+    if (data.containsKey('progress')) {
+      context.handle(
+        _progressMeta,
+        progress.isAcceptableOrUnknown(data['progress']!, _progressMeta),
+      );
+    }
     if (data.containsKey('last_modified')) {
       context.handle(
         _lastModifiedMeta,
@@ -274,6 +315,14 @@ class $DocumentsTable extends Documents
         DriftSqlType.bool,
         data['${effectivePrefix}rtl'],
       )!,
+      favourite: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}favourite'],
+      )!,
+      progress: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}progress'],
+      )!,
       lastModified: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}last_modified'],
@@ -298,6 +347,8 @@ class Document extends DataClass implements Insertable<Document> {
   final String? publisher;
   final String? country;
   final bool rtl;
+  final bool favourite;
+  final double progress;
   final DateTime lastModified;
   const Document({
     required this.id,
@@ -310,6 +361,8 @@ class Document extends DataClass implements Insertable<Document> {
     this.publisher,
     this.country,
     required this.rtl,
+    required this.favourite,
+    required this.progress,
     required this.lastModified,
   });
   @override
@@ -339,6 +392,8 @@ class Document extends DataClass implements Insertable<Document> {
       map['country'] = Variable<String>(country);
     }
     map['rtl'] = Variable<bool>(rtl);
+    map['favourite'] = Variable<bool>(favourite);
+    map['progress'] = Variable<double>(progress);
     map['last_modified'] = Variable<DateTime>(lastModified);
     return map;
   }
@@ -367,6 +422,8 @@ class Document extends DataClass implements Insertable<Document> {
           ? const Value.absent()
           : Value(country),
       rtl: Value(rtl),
+      favourite: Value(favourite),
+      progress: Value(progress),
       lastModified: Value(lastModified),
     );
   }
@@ -387,6 +444,8 @@ class Document extends DataClass implements Insertable<Document> {
       publisher: serializer.fromJson<String?>(json['publisher']),
       country: serializer.fromJson<String?>(json['country']),
       rtl: serializer.fromJson<bool>(json['rtl']),
+      favourite: serializer.fromJson<bool>(json['favourite']),
+      progress: serializer.fromJson<double>(json['progress']),
       lastModified: serializer.fromJson<DateTime>(json['lastModified']),
     );
   }
@@ -404,6 +463,8 @@ class Document extends DataClass implements Insertable<Document> {
       'publisher': serializer.toJson<String?>(publisher),
       'country': serializer.toJson<String?>(country),
       'rtl': serializer.toJson<bool>(rtl),
+      'favourite': serializer.toJson<bool>(favourite),
+      'progress': serializer.toJson<double>(progress),
       'lastModified': serializer.toJson<DateTime>(lastModified),
     };
   }
@@ -419,6 +480,8 @@ class Document extends DataClass implements Insertable<Document> {
     Value<String?> publisher = const Value.absent(),
     Value<String?> country = const Value.absent(),
     bool? rtl,
+    bool? favourite,
+    double? progress,
     DateTime? lastModified,
   }) => Document(
     id: id ?? this.id,
@@ -431,6 +494,8 @@ class Document extends DataClass implements Insertable<Document> {
     publisher: publisher.present ? publisher.value : this.publisher,
     country: country.present ? country.value : this.country,
     rtl: rtl ?? this.rtl,
+    favourite: favourite ?? this.favourite,
+    progress: progress ?? this.progress,
     lastModified: lastModified ?? this.lastModified,
   );
   Document copyWithCompanion(DocumentsCompanion data) {
@@ -445,6 +510,8 @@ class Document extends DataClass implements Insertable<Document> {
       publisher: data.publisher.present ? data.publisher.value : this.publisher,
       country: data.country.present ? data.country.value : this.country,
       rtl: data.rtl.present ? data.rtl.value : this.rtl,
+      favourite: data.favourite.present ? data.favourite.value : this.favourite,
+      progress: data.progress.present ? data.progress.value : this.progress,
       lastModified: data.lastModified.present
           ? data.lastModified.value
           : this.lastModified,
@@ -464,6 +531,8 @@ class Document extends DataClass implements Insertable<Document> {
           ..write('publisher: $publisher, ')
           ..write('country: $country, ')
           ..write('rtl: $rtl, ')
+          ..write('favourite: $favourite, ')
+          ..write('progress: $progress, ')
           ..write('lastModified: $lastModified')
           ..write(')'))
         .toString();
@@ -481,6 +550,8 @@ class Document extends DataClass implements Insertable<Document> {
     publisher,
     country,
     rtl,
+    favourite,
+    progress,
     lastModified,
   );
   @override
@@ -497,6 +568,8 @@ class Document extends DataClass implements Insertable<Document> {
           other.publisher == this.publisher &&
           other.country == this.country &&
           other.rtl == this.rtl &&
+          other.favourite == this.favourite &&
+          other.progress == this.progress &&
           other.lastModified == this.lastModified);
 }
 
@@ -511,6 +584,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
   final Value<String?> publisher;
   final Value<String?> country;
   final Value<bool> rtl;
+  final Value<bool> favourite;
+  final Value<double> progress;
   final Value<DateTime> lastModified;
   const DocumentsCompanion({
     this.id = const Value.absent(),
@@ -523,6 +598,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     this.publisher = const Value.absent(),
     this.country = const Value.absent(),
     this.rtl = const Value.absent(),
+    this.favourite = const Value.absent(),
+    this.progress = const Value.absent(),
     this.lastModified = const Value.absent(),
   });
   DocumentsCompanion.insert({
@@ -536,6 +613,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     this.publisher = const Value.absent(),
     this.country = const Value.absent(),
     this.rtl = const Value.absent(),
+    this.favourite = const Value.absent(),
+    this.progress = const Value.absent(),
     this.lastModified = const Value.absent(),
   }) : title = Value(title);
   static Insertable<Document> custom({
@@ -549,6 +628,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Expression<String>? publisher,
     Expression<String>? country,
     Expression<bool>? rtl,
+    Expression<bool>? favourite,
+    Expression<double>? progress,
     Expression<DateTime>? lastModified,
   }) {
     return RawValuesInsertable({
@@ -562,6 +643,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       if (publisher != null) 'publisher': publisher,
       if (country != null) 'country': country,
       if (rtl != null) 'rtl': rtl,
+      if (favourite != null) 'favourite': favourite,
+      if (progress != null) 'progress': progress,
       if (lastModified != null) 'last_modified': lastModified,
     });
   }
@@ -577,6 +660,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Value<String?>? publisher,
     Value<String?>? country,
     Value<bool>? rtl,
+    Value<bool>? favourite,
+    Value<double>? progress,
     Value<DateTime>? lastModified,
   }) {
     return DocumentsCompanion(
@@ -590,6 +675,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       publisher: publisher ?? this.publisher,
       country: country ?? this.country,
       rtl: rtl ?? this.rtl,
+      favourite: favourite ?? this.favourite,
+      progress: progress ?? this.progress,
       lastModified: lastModified ?? this.lastModified,
     );
   }
@@ -627,6 +714,12 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     if (rtl.present) {
       map['rtl'] = Variable<bool>(rtl.value);
     }
+    if (favourite.present) {
+      map['favourite'] = Variable<bool>(favourite.value);
+    }
+    if (progress.present) {
+      map['progress'] = Variable<double>(progress.value);
+    }
     if (lastModified.present) {
       map['last_modified'] = Variable<DateTime>(lastModified.value);
     }
@@ -646,6 +739,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
           ..write('publisher: $publisher, ')
           ..write('country: $country, ')
           ..write('rtl: $rtl, ')
+          ..write('favourite: $favourite, ')
+          ..write('progress: $progress, ')
           ..write('lastModified: $lastModified')
           ..write(')'))
         .toString();
@@ -675,6 +770,8 @@ typedef $$DocumentsTableCreateCompanionBuilder =
       Value<String?> publisher,
       Value<String?> country,
       Value<bool> rtl,
+      Value<bool> favourite,
+      Value<double> progress,
       Value<DateTime> lastModified,
     });
 typedef $$DocumentsTableUpdateCompanionBuilder =
@@ -689,6 +786,8 @@ typedef $$DocumentsTableUpdateCompanionBuilder =
       Value<String?> publisher,
       Value<String?> country,
       Value<bool> rtl,
+      Value<bool> favourite,
+      Value<double> progress,
       Value<DateTime> lastModified,
     });
 
@@ -748,6 +847,16 @@ class $$DocumentsTableFilterComposer
 
   ColumnFilters<bool> get rtl => $composableBuilder(
     column: $table.rtl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get favourite => $composableBuilder(
+    column: $table.favourite,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get progress => $composableBuilder(
+    column: $table.progress,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -816,6 +925,16 @@ class $$DocumentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get favourite => $composableBuilder(
+    column: $table.favourite,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get progress => $composableBuilder(
+    column: $table.progress,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get lastModified => $composableBuilder(
     column: $table.lastModified,
     builder: (column) => ColumnOrderings(column),
@@ -861,6 +980,12 @@ class $$DocumentsTableAnnotationComposer
   GeneratedColumn<bool> get rtl =>
       $composableBuilder(column: $table.rtl, builder: (column) => column);
 
+  GeneratedColumn<bool> get favourite =>
+      $composableBuilder(column: $table.favourite, builder: (column) => column);
+
+  GeneratedColumn<double> get progress =>
+      $composableBuilder(column: $table.progress, builder: (column) => column);
+
   GeneratedColumn<DateTime> get lastModified => $composableBuilder(
     column: $table.lastModified,
     builder: (column) => column,
@@ -905,6 +1030,8 @@ class $$DocumentsTableTableManager
                 Value<String?> publisher = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 Value<bool> rtl = const Value.absent(),
+                Value<bool> favourite = const Value.absent(),
+                Value<double> progress = const Value.absent(),
                 Value<DateTime> lastModified = const Value.absent(),
               }) => DocumentsCompanion(
                 id: id,
@@ -917,6 +1044,8 @@ class $$DocumentsTableTableManager
                 publisher: publisher,
                 country: country,
                 rtl: rtl,
+                favourite: favourite,
+                progress: progress,
                 lastModified: lastModified,
               ),
           createCompanionCallback:
@@ -931,6 +1060,8 @@ class $$DocumentsTableTableManager
                 Value<String?> publisher = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 Value<bool> rtl = const Value.absent(),
+                Value<bool> favourite = const Value.absent(),
+                Value<double> progress = const Value.absent(),
                 Value<DateTime> lastModified = const Value.absent(),
               }) => DocumentsCompanion.insert(
                 id: id,
@@ -943,6 +1074,8 @@ class $$DocumentsTableTableManager
                 publisher: publisher,
                 country: country,
                 rtl: rtl,
+                favourite: favourite,
+                progress: progress,
                 lastModified: lastModified,
               ),
           withReferenceMapper: (p0) => p0
