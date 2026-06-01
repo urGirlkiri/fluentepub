@@ -1,32 +1,25 @@
 import 'dart:collection';
+import 'package:fluentepub/config/filters.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 typedef MenuEntry = DropdownMenuEntry<String>;
 
-class SortBy extends StatefulWidget {
-  const SortBy({super.key});
+class SortBy extends StatelessWidget {
+  const SortBy({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
 
-  @override
-  State<SortBy> createState() => _SortByState();
-}
-
-class _SortByState extends State<SortBy> {
-  static const List<String> filters = <String>[
-    'Last Read',
-    'Title (A-Z)',
-    'Favourites',
-    'Recently Added',
-    'Last Modified',
-  ];
+  final String value;
+  final ValueChanged<String> onChanged;
 
   static final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(
-    filters.map<MenuEntry>(
+    Filters.all.map<MenuEntry>(
       (String name) => MenuEntry(value: name, label: name),
     ),
   );
-
-  String dropdownValue = filters.first;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +30,7 @@ class _SortByState extends State<SortBy> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: DropdownMenu<String>(
-        initialSelection: filters.first,
+        initialSelection: value,
         requestFocusOnTap: false,
         enableSearch: false,
         enableFilter: false,
@@ -56,9 +49,9 @@ class _SortByState extends State<SortBy> {
           color: Theme.of(context).colorScheme.primary,
         ),
         onSelected: (String? value) {
-          setState(() {
-            dropdownValue = value!;
-          });
+          if (value != null) {
+            onChanged(value);
+          }
         },
         dropdownMenuEntries: menuEntries,
       ),

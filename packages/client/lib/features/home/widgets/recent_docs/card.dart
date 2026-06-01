@@ -1,10 +1,11 @@
+import 'dart:io';
 import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/database/index.dart';
 import 'package:fluentepub/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 
-class RecentDocCard extends StatelessWidget {
-  const RecentDocCard({super.key, required this.novel});
+class DocCard extends StatelessWidget {
+  const DocCard({super.key, required this.novel});
 
   final Document novel;
 
@@ -43,13 +44,13 @@ class RecentDocCard extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      novel.coverUrl ?? 'assets/images/blank.png',
-                      fit: BoxFit.cover,
-                      cacheWidth: 300,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Placeholder(),
-                    ),
+                    child: Image.file(
+                            File(novel.coverUrl ?? 'assets/images/blank.png'),
+                            fit: BoxFit.cover,
+                            cacheWidth: 300,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Placeholder(),
+                          )
                   ),
                 ),
                 if (novel.favourite)

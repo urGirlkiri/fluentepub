@@ -2,10 +2,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/router.dart';
 import 'package:fluentepub/config/theme/palette.dart';
-import 'package:fluentepub/database/index.dart';
 import 'package:fluentepub/features/home/widgets/new_document/index.dart';
-import 'package:fluentepub/features/home/widgets/recent_doc.dart';
-import 'package:fluentepub/features/home/widgets/sort_by.dart';
+import 'package:fluentepub/features/home/widgets/recent_docs/index.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:fluentepub/widgets/logo.dart';
@@ -22,7 +20,6 @@ class HomeScreen extends StatelessWidget {
     final theme = Theme.of(context);
     bool isDarkMode = theme.brightness == Brightness.dark;
     final selectedDoc = context.watchDoc.selectedDocument;
-    final db = context.db;
 
     return Scaffold(
       drawer: EDrawer(),
@@ -100,67 +97,7 @@ class HomeScreen extends StatelessWidget {
           slivers: [
             const SliverToBoxAdapter(child: NewDocument()),
             const SliverToBoxAdapter(child: SizedBox(height: 40)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16.0, right: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Recents', style: TextStyle(fontSize: 18)),
-                    Row(
-                      children: [
-                        const Text(
-                          'Sort by ',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(width: 12),
-                        SortBy(),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            StreamBuilder<List<Document>>(
-              stream: db.select(db.documents).watch(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                }
-
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(32.0),
-                        child: Text(
-                          "Your library is empty. Create or import a document above.",
-                        ),
-                      ),
-                    ),
-                  );
-                }
-
-                final documents = snapshot.data!;
-                return SliverGrid.builder(
-                  itemCount: documents.length,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 300,
-                    mainAxisExtent: 350,
-                    crossAxisSpacing: 14,
-                    mainAxisSpacing: 20,
-                  ),
-                  itemBuilder: (context, index) {
-                    final novel = documents[index];
-                    return RecentDocCard(
-                      novel: novel,
-                    );
-                  },
-                );
-              },
-            ),
+            const RecentDocuments(),
           ],
         ),
       ),
