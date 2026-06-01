@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:fluentepub/config/context.dart';
+import 'package:fluentepub/config/router.dart';
 import 'package:fluentepub/database/index.dart';
 import 'package:fluentepub/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DocCard extends StatelessWidget {
   const DocCard({super.key, required this.novel});
@@ -21,6 +23,13 @@ class DocCard extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () => context.readDoc.setDocument(novel),
+            onDoubleTap: () {
+              context.readDoc.setDocument(novel);
+              context.goNamed(
+                Routes.workspace,
+                pathParameters: {'id': novel.id.toString()},
+              );
+            },
             child: Stack(
               fit: StackFit.expand,
               children: [
