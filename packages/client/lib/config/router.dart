@@ -1,5 +1,5 @@
 import 'package:fluentepub/features/home/screen.dart';
-import 'package:fluentepub/features/new/blank_screen.dart';
+import 'package:fluentepub/features/new/blank/screen.dart';
 import 'package:fluentepub/features/splash/screen.dart';
 import 'package:fluentepub/features/workspace.dart';
 import 'package:go_router/go_router.dart';
