@@ -16,7 +16,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeApp();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeApp();
+    });
   }
 
   Future<void> _initializeApp() async {
@@ -24,9 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     FlutterNativeSplash.remove();
 
-    if (mounted) {
-      context.goNamed(Routes.home);
-    }
+    if (!mounted) return;
+    context.goNamed(Routes.home);
   }
 
   @override
