@@ -19,8 +19,8 @@ extension ContextData on BuildContext {
 
   bool get isDarkMode => theme.brightness == Brightness.dark;
 
-  DocumentProvider get watchDoc => watch<DocumentProvider>(); 
-  DocumentProvider get readDoc => read<DocumentProvider>(); 
+  DocumentProvider get watchDoc => watch<DocumentProvider>();
+  DocumentProvider get readDoc => read<DocumentProvider>();
 
   AppDatabase get db => ogDb;
 }

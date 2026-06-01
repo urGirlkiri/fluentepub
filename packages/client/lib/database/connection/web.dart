@@ -4,17 +4,19 @@ import 'package:logging/logging.dart';
 
 QueryExecutor openConnection() {
   final Logger log = Logger("Web Connector");
-  return DatabaseConnection.delayed(Future(() async {
-    final result = await WasmDatabase.open(
-      databaseName: 'fluentepub_library',
-      sqlite3Uri: Uri.parse('sqlite3.wasm'),
-      driftWorkerUri: Uri.parse('drift_worker.js'),
-    );
+  return DatabaseConnection.delayed(
+    Future(() async {
+      final result = await WasmDatabase.open(
+        databaseName: 'fluentepub_library',
+        sqlite3Uri: Uri.parse('sqlite3.wasm'),
+        driftWorkerUri: Uri.parse('drift_worker.js'),
+      );
 
-    if (result.missingFeatures.isNotEmpty) {
-      log.warning('Missing browser features: ${result.missingFeatures}');
-    }
+      if (result.missingFeatures.isNotEmpty) {
+        log.warning('Missing browser features: ${result.missingFeatures}');
+      }
 
-    return result.resolvedExecutor;
-  }));
+      return result.resolvedExecutor;
+    }),
+  );
 }

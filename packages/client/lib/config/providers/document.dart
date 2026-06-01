@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluentepub/database/index.dart'; 
+import 'package:fluentepub/database/index.dart';
 
 class DocumentProvider extends ChangeNotifier {
   Document? _selectedDocument;

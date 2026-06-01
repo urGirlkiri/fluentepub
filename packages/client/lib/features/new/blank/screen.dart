@@ -31,9 +31,7 @@ class _NewBlankDocumentState extends State<NewBlankDocument> {
   bool _isSaving = false;
   String? _coverPath;
   Uint8List? _coverBytes;
-  final Map<String, bool> _fieldErrors = {
-    'title': false,
-  };
+  final Map<String, bool> _fieldErrors = {'title': false};
 
   @override
   void dispose() {
@@ -80,31 +78,47 @@ class _NewBlankDocumentState extends State<NewBlankDocument> {
 
     final title = _titleController.text.trim();
 
-    final insertedId = await context.db.into(context.db.documents).insert(
-      DocumentsCompanion.insert(
-        title: title,
-        coverUrl: Value(_coverPath == null || _coverPath!.isEmpty ? null : _coverPath),
-        author: Value(_authorController.text.trim().isEmpty
-            ? null
-            : _authorController.text.trim()),
-        series: Value(_seriesController.text.trim().isEmpty
-            ? null
-            : _seriesController.text.trim()),
-        tags: Value(_tagsController.text.trim().isEmpty
-            ? null
-            : _tagsController.text.trim()),
-        language: Value(_languageController.text.trim().isEmpty
-            ? null
-            : _languageController.text.trim()),
-        publisher: Value(_publisherController.text.trim().isEmpty
-            ? null
-            : _publisherController.text.trim()),
-        country: Value(_countryController.text.trim().isEmpty
-            ? null
-            : _countryController.text.trim()),
-        rtl: Value(_rtl),
-      ),
-    );
+    final insertedId = await context.db
+        .into(context.db.documents)
+        .insert(
+          DocumentsCompanion.insert(
+            title: title,
+            coverUrl: Value(
+              _coverPath == null || _coverPath!.isEmpty ? null : _coverPath,
+            ),
+            author: Value(
+              _authorController.text.trim().isEmpty
+                  ? null
+                  : _authorController.text.trim(),
+            ),
+            series: Value(
+              _seriesController.text.trim().isEmpty
+                  ? null
+                  : _seriesController.text.trim(),
+            ),
+            tags: Value(
+              _tagsController.text.trim().isEmpty
+                  ? null
+                  : _tagsController.text.trim(),
+            ),
+            language: Value(
+              _languageController.text.trim().isEmpty
+                  ? null
+                  : _languageController.text.trim(),
+            ),
+            publisher: Value(
+              _publisherController.text.trim().isEmpty
+                  ? null
+                  : _publisherController.text.trim(),
+            ),
+            country: Value(
+              _countryController.text.trim().isEmpty
+                  ? null
+                  : _countryController.text.trim(),
+            ),
+            rtl: Value(_rtl),
+          ),
+        );
 
     if (!mounted) return;
 
@@ -114,7 +128,7 @@ class _NewBlankDocumentState extends State<NewBlankDocument> {
     );
   }
 
-    Future<void> _pickCoverImage() async {
+  Future<void> _pickCoverImage() async {
     final result = await FilePicker.pickFiles(
       type: FileType.image,
       allowMultiple: false,
@@ -194,7 +208,9 @@ class _NewBlankDocumentState extends State<NewBlankDocument> {
                         onTitleChanged: (_) {
                           if (_fieldErrors['title'] == true) {
                             setState(() {
-                              _fieldErrors['title'] = _titleController.text.trim().isEmpty;
+                              _fieldErrors['title'] = _titleController.text
+                                  .trim()
+                                  .isEmpty;
                             });
                           }
                         },
@@ -236,7 +252,9 @@ class _NewBlankDocumentState extends State<NewBlankDocument> {
                         onTitleChanged: (_) {
                           if (_fieldErrors['title'] == true) {
                             setState(() {
-                              _fieldErrors['title'] = _titleController.text.trim().isEmpty;
+                              _fieldErrors['title'] = _titleController.text
+                                  .trim()
+                                  .isEmpty;
                             });
                           }
                         },
@@ -251,7 +269,7 @@ class _NewBlankDocumentState extends State<NewBlankDocument> {
                   ],
                 ),
 
-               SizedBox(height: screenSize.height/4),
+              SizedBox(height: screenSize.height / 4),
               Divider(
                 height: 1,
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
@@ -281,9 +299,4 @@ class _NewBlankDocumentState extends State<NewBlankDocument> {
       ),
     );
   }
-
-
 }
-
-
-

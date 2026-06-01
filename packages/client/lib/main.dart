@@ -17,7 +17,7 @@ void main() {
       name: record.loggerName,
     );
   });
-  
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => DocumentProvider(),

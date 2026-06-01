@@ -29,7 +29,9 @@ class DocCard extends StatelessWidget {
                     color: theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: theme.colorScheme.onSurface.withValues(alpha: isSelected ? 1: .1),
+                      color: theme.colorScheme.onSurface.withValues(
+                        alpha: isSelected ? 1 : .1,
+                      ),
                       width: isSelected ? 5 : 1,
                     ),
                     boxShadow: [
@@ -45,12 +47,12 @@ class DocCard extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.file(
-                            File(novel.coverUrl ?? 'assets/images/blank.png'),
-                            fit: BoxFit.cover,
-                            cacheWidth: 300,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Placeholder(),
-                          )
+                      File(novel.coverUrl ?? 'assets/images/blank.png'),
+                      fit: BoxFit.cover,
+                      cacheWidth: 300,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Placeholder(),
+                    ),
                   ),
                 ),
                 if (novel.favourite)

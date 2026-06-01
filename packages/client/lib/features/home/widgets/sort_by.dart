@@ -6,11 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 typedef MenuEntry = DropdownMenuEntry<String>;
 
 class SortBy extends StatelessWidget {
-  const SortBy({
-    super.key,
-    required this.value,
-    required this.onChanged,
-  });
+  const SortBy({super.key, required this.value, required this.onChanged});
 
   final String value;
   final ValueChanged<String> onChanged;

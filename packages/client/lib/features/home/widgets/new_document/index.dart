@@ -51,7 +51,6 @@ class NewDocument extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-      
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -59,7 +58,7 @@ class NewDocument extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                  const NewCard(),
+                    const NewCard(),
                     const SizedBox(height: 8),
                     const Text(
                       'Blank Document',
@@ -68,7 +67,7 @@ class NewDocument extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(width: 16),
-      
+
                 Column(
                   children: [
                     Container(
@@ -98,7 +97,7 @@ class NewDocument extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(width: 16),
-      
+
                 ...templates.map((template) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 16),

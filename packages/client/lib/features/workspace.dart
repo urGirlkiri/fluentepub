@@ -26,15 +26,15 @@ class _WorkSpaceState extends State<WorkSpace> {
 
   Future<void> _loadDocumentFromUrl() async {
     final provider = context.readDoc;
-    
+
     if (provider.selectedDocument?.id != widget.documentId) {
-      final docFromDb = await (context.db.select(context.db.documents)
-            ..where((d) => d.id.equals(widget.documentId)))
-          .getSingleOrNull();
-      
+      final docFromDb = await (context.db.select(
+        context.db.documents,
+      )..where((d) => d.id.equals(widget.documentId))).getSingleOrNull();
+
       provider.setDocument(docFromDb);
     }
-    
+
     setState(() => _isLoading = false);
   }
 

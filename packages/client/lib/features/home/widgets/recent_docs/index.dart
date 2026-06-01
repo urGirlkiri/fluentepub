@@ -1,4 +1,3 @@
-
 import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/filters.dart';
 import 'package:fluentepub/database/index.dart';
@@ -103,9 +102,7 @@ class _RecentDocumentsState extends State<RecentDocuments> {
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.all(32.0),
-                    child: Text(
-                      "No documents match the selected filter.",
-                    ),
+                    child: Text("No documents match the selected filter."),
                   ),
                 ),
               );
@@ -120,9 +117,7 @@ class _RecentDocumentsState extends State<RecentDocuments> {
               ),
               itemBuilder: (context, index) {
                 final novel = documents[index];
-                return DocCard(
-                  novel: novel,
-                );
+                return DocCard(novel: novel);
               },
             );
           },

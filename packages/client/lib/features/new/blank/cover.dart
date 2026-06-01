@@ -56,7 +56,9 @@ class _CoverPickerState extends State<CoverPicker> {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: _isHovering ? 0.15 : 0.08),
+                color: Colors.black.withValues(
+                  alpha: _isHovering ? 0.15 : 0.08,
+                ),
                 blurRadius: _isHovering ? 16 : 10,
                 offset: const Offset(0, 4),
               ),
@@ -98,7 +100,9 @@ class _CoverPickerState extends State<CoverPicker> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.65),
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.65,
+                            ),
                           ),
                         ),
                       ],

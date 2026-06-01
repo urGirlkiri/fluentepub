@@ -108,9 +108,7 @@ class DocumentMetadataForm extends StatelessWidget {
           label: 'Publisher',
           child: TextFormField(
             controller: publisherController,
-            decoration: const InputDecoration(
-              hintText: 'Publisher...',
-            ),
+            decoration: const InputDecoration(hintText: 'Publisher...'),
           ),
         ),
         FormRow(

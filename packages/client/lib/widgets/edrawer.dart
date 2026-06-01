@@ -50,8 +50,9 @@ class EDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: IconButton(
                         onPressed: Navigator.of(context).pop,
-                         icon: Icon(LucideIcons.x, size: 24,)),
-                    )
+                        icon: Icon(LucideIcons.x, size: 24),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -83,7 +84,7 @@ class EDrawer extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   const Spacer(),
 
                   ...bottomLinkItems.map(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProgressBar extends StatelessWidget {
-  final int percent;  
+  final int percent;
 
   const ProgressBar({super.key, required this.percent});
 
@@ -9,8 +9,7 @@ class ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return  Stack(
-      
+    return Stack(
       alignment: Alignment.centerLeft,
       children: [
         Container(
@@ -23,14 +22,14 @@ class ProgressBar extends StatelessWidget {
             ),
           ),
         ),
-    
+
         FractionallySizedBox(
-          widthFactor: (percent/100).clamp(0.0, 1.0),
-    
+          widthFactor: (percent / 100).clamp(0.0, 1.0),
+
           child: Container(
             height: 32,
             decoration: ShapeDecoration(
-              color:  theme.colorScheme.surface,
+              color: theme.colorScheme.surface,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(60),
               ),
@@ -39,8 +38,12 @@ class ProgressBar extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.center,
-          child: Text('$percent%', style: TextStyle(color: theme.colorScheme.onSurface),))
-      ]
+          child: Text(
+            '$percent%',
+            style: TextStyle(color: theme.colorScheme.onSurface),
+          ),
+        ),
+      ],
     );
   }
 }

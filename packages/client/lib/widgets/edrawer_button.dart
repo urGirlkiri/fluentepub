@@ -11,10 +11,9 @@ class EDrawerButton extends StatefulWidget {
 class _EDrawerButtonState extends State<EDrawerButton> {
   @override
   Widget build(BuildContext context) {
-
     return IconButton(
-      onPressed: () => Scaffold.of(context).openDrawer(), 
-      icon: Icon(LucideIcons.menu, size: 40)
+      onPressed: () => Scaffold.of(context).openDrawer(),
+      icon: Icon(LucideIcons.menu, size: 40),
     );
   }
 }
