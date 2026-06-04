@@ -17,7 +17,26 @@ class _DocEditorState extends State<DocEditor> {
   @override
   void initState() {
     super.initState();
-    _document = MutableDocument.empty();
+  _document = MutableDocument(
+      nodes: [
+        ParagraphNode(
+          id: Editor.createNodeId(),
+          text: AttributedText('Hello there'),
+          metadata: {
+            'blockType': header1Attribution, 
+          },
+        ),
+        ParagraphNode(
+          id: Editor.createNodeId(),
+          text: AttributedText('Start typing any MD u know'),
+        ),
+        ListItemNode(
+          id: Editor.createNodeId(),
+          text: AttributedText('For example, this is a list item'),
+          itemType: ListItemType.ordered,
+        ),
+      ],
+    );
     _composer = MutableDocumentComposer();
     
     _editor = createDefaultDocumentEditor(
@@ -76,6 +95,13 @@ class _DocEditorState extends State<DocEditor> {
     return SuperEditor(
       editor: _editor,
       stylesheet: themeStylesheet,
+      documentOverlayBuilders: [
+        DefaultCaretOverlayBuilder(
+          caretStyle: CaretStyle(
+            color: colorScheme.primary,
+          ),
+        ),
+      ],
     );
   }
 }
