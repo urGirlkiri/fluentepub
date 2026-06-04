@@ -41,6 +41,14 @@ class NewDocument extends StatelessWidget {
     },
   ];
 
+  void _showComingSoon(BuildContext context, String feature) {
+    final isImport = feature.toLowerCase().contains('import');
+    final tfeature = isImport ? '$feature feature' : '$feature Template';
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('$tfeature  is coming soon!')));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -68,105 +76,114 @@ class NewDocument extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
 
-                Column(
-                  children: [
-                    Container(
-                      width: 220,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? theme.colorScheme.onSecondary
-                            : Colors.white,
-                        border: Border.all(
-                          color: theme.colorScheme.primary,
-                          width: .5,
+                GestureDetector(
+                  onTap: () => _showComingSoon(context, 'Import Files'),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 220,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          color: isDarkMode
+                              ? theme.colorScheme.onSecondary
+                              : Colors.white,
+                          border: Border.all(
+                            color: theme.colorScheme.primary,
+                            width: .5,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        borderRadius: BorderRadius.circular(8),
+                        child: Icon(
+                          LucideIcons.import,
+                          size: 70,
+                          color: theme.colorScheme.secondary,
+                        ),
                       ),
-                      child: Icon(
-                        LucideIcons.import,
-                        size: 70,
-                        color: theme.colorScheme.secondary,
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Import Files',
+                        style: TextStyle(fontWeight: FontWeight.w500),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Import Files',
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 16),
 
                 ...templates.map((template) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 220,
-                          height: 300,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: theme.colorScheme.onSurface.withValues(
-                                alpha: .1,
-                              ),
-                              width: 1,
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: template['gradient'],
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: palette.inkBlack.withValues(alpha: .15),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                bottom: 24,
-                                left: 16,
-                                right: 16,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 6,
-                                      width: 140,
-                                      color: Colors.white24,
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Container(
-                                      height: 6,
-                                      width: 100,
-                                      color: Colors.white12,
-                                    ),
-                                  ],
+                    child: GestureDetector(
+                      onTap: () => _showComingSoon(context, template['title']),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 220,
+                            height: 300,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: .1,
                                 ),
+                                width: 1,
                               ),
-                              Center(
-                                child: Icon(
-                                  template['icon'],
-                                  size: 56,
-                                  color: Colors.white.withValues(alpha: .85),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: template['gradient'],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: palette.inkBlack.withValues(
+                                    alpha: .15,
+                                  ),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: 24,
+                                  left: 16,
+                                  right: 16,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 6,
+                                        width: 140,
+                                        color: Colors.white24,
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Container(
+                                        height: 6,
+                                        width: 100,
+                                        color: Colors.white12,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Center(
+                                  child: Icon(
+                                    template['icon'],
+                                    size: 56,
+                                    color: Colors.white.withValues(alpha: .85),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          template['title'],
-                          style: const TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+                          Text(
+                            template['title'],
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }),

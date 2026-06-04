@@ -18,6 +18,13 @@ class _WorkSpaceState extends State<WorkSpace> {
   final Logger logger = Logger('WorkSpace');
   bool _isLoading = true;
 
+  void _showComingSoon(String feature) {
+  
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$feature coming soon!')),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -64,7 +71,7 @@ class _WorkSpaceState extends State<WorkSpace> {
             ),
             SizedBox(width: 12),
             ElevatedButton(
-              onPressed: () => context.goNamed(Routes.home),
+              onPressed: () => _showComingSoon('Table of Contents'),
               child: Row(
                 children: [
                   Icon(LucideIcons.list, size: 24),
@@ -75,7 +82,7 @@ class _WorkSpaceState extends State<WorkSpace> {
             ),
             SizedBox(width: 12),
             ElevatedButton(
-              onPressed: () => context.goNamed(Routes.home),
+              onPressed: () => _showComingSoon('Note Taking'),
               child: Row(
                 children: [
                   Icon(LucideIcons.messageSquareText, size: 24),
@@ -86,7 +93,7 @@ class _WorkSpaceState extends State<WorkSpace> {
             ),
             SizedBox(width: 12),
             ElevatedButton(
-              onPressed: () => context.goNamed(Routes.home),
+              onPressed: () => _showComingSoon('Bookmarking'),
               child: Row(
                 children: [
                   Icon(LucideIcons.bookmark, size: 24),
@@ -97,7 +104,7 @@ class _WorkSpaceState extends State<WorkSpace> {
             ),
             SizedBox(width: 12),
             ElevatedButton(
-              onPressed: () => context.goNamed(Routes.home),
+              onPressed: () => _showComingSoon('Searching'),
               child: Row(children: [Icon(LucideIcons.textSearch, size: 24)]),
             ),
 
@@ -108,7 +115,7 @@ class _WorkSpaceState extends State<WorkSpace> {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: () => context.goNamed(Routes.home),
+              onPressed: () => _showComingSoon('Voice Reader'),
               child: Row(
                 children: [
                   Icon(LucideIcons.audioLines, size: 24),
@@ -119,24 +126,24 @@ class _WorkSpaceState extends State<WorkSpace> {
             ),
             SizedBox(width: 12),
             IconButton(
-              onPressed: () {},
+              onPressed: () => _showComingSoon('Volume'),
               icon: Icon(LucideIcons.volume2, size: 24),
             ),
             SizedBox(width: 12),
             IconButton(
-              onPressed: () {},
+              onPressed: () => _showComingSoon('Full Screen'),
               icon: Icon(LucideIcons.maximize, size: 24),
             ),
             SizedBox(width: 12),
             IconButton(
-              onPressed: () {},
+              onPressed: () => _showComingSoon('Settings'),
               icon: Icon(LucideIcons.settings, size: 24),
             ),
             SizedBox(width: 12),
             VerticalDivider(),
             IconButton(
-              onPressed: () {},
-              icon: Icon(LucideIcons.printer, size: 24),
+              onPressed: () => _showComingSoon('Exporting'),
+              icon: Icon(LucideIcons.download, size: 24),
             ),
           ],
         ),

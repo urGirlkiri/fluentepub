@@ -14,6 +14,12 @@ class HomeScreen extends StatelessWidget {
   static Palette palette = Palette();
   const HomeScreen({super.key});
 
+  void _showComingSoon(BuildContext context, String feature) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$feature is coming soon!')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -45,9 +51,15 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                const Icon(LucideIcons.layoutGrid, size: 32),
+                IconButton(
+                  icon: Icon(LucideIcons.layoutGrid, size: 32),
+                  onPressed: () => _showComingSoon(context, 'Grid View'),
+                ),
                 const SizedBox(width: 12),
-                const Icon(LucideIcons.layoutList, size: 32),
+                IconButton(
+                  icon: Icon(LucideIcons.layoutList, size: 32),
+                  onPressed: () => _showComingSoon(context, 'List View'),
+                ),
                 const SizedBox(width: 12),
                 IconButton(
                   icon: Icon(
@@ -73,7 +85,7 @@ class HomeScreen extends StatelessWidget {
           slivers: [
             const SliverToBoxAdapter(child: NewDocument()),
             const SliverToBoxAdapter(child: SizedBox(height: 40)),
-            const RecentDocuments(),
+            RecentDocuments(),
           ],
         ),
       ),
