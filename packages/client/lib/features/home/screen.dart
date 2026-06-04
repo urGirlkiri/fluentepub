@@ -1,14 +1,12 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:fluentepub/config/context.dart';
-import 'package:fluentepub/config/router.dart';
 import 'package:fluentepub/config/theme/palette.dart';
+import 'package:fluentepub/features/home/widgets/bottom_nav.dart';
 import 'package:fluentepub/features/home/widgets/new_document/index.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/index.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:fluentepub/widgets/logo.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,7 +17,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     bool isDarkMode = theme.brightness == Brightness.dark;
-    final selectedDoc = context.watchDoc.selectedDocument;
 
     return Scaffold(
       drawer: EDrawer(),
@@ -36,29 +33,7 @@ class HomeScreen extends StatelessWidget {
                 child: SizedBox(
                   height: 50,
                   width: 600,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isDarkMode
-                              ? theme.colorScheme.surface
-                              : HomeScreen.palette.yaleBlue,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                      isDense: true,
-                      hintText: 'Search books...',
-                      hintStyle: const TextStyle(fontSize: 14),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 12,
-                      ),
-                    ),
-                  ),
+                  child: const SearchBar(),
                 ),
               ),
             ),
@@ -78,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                     isDarkMode ? LucideIcons.sun : LucideIcons.moon,
                     size: 28,
                     color: !isDarkMode
-                        ? HomeScreen.palette.yaleBlue
+                        ? palette.yaleBlue
                         : Colors.amberAccent,
                   ),
                   onPressed: () {
@@ -101,72 +76,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: selectedDoc == null
-          ? const SizedBox.shrink()
-          : Container(
-              color: theme.colorScheme.surface,
-              height: 80,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    SizedBox(width: 12),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            selectedDoc.title,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          VerticalDivider(),
-                          Row(
-                            children: [
-                              Text(
-                                'p.12',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '/',
-                                style: TextStyle(
-                                  color: theme.colorScheme.primary,
-                                ),
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                '222',
-                                style: TextStyle(
-                                  color: theme.colorScheme.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const Spacer(),
-
-                    ElevatedButton(
-                      onPressed: () => context.pushNamed(
-                        Routes.workspace,
-                        pathParameters: {'id': selectedDoc.id.toString()},
-                      ),
-                      child: SizedBox(
-                        height: 80,
-                        child: Row(
-                          children: [
-                            Icon(LucideIcons.bookText, size: 32),
-                            SizedBox(width: 10),
-                            Text('Continue Reading'),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+      bottomNavigationBar: const BottomNav()
     );
   }
 }

@@ -22,5 +22,7 @@ extension ContextData on BuildContext {
   DocumentProvider get watchDoc => watch<DocumentProvider>();
   DocumentProvider get readDoc => read<DocumentProvider>();
 
+  String get searchQuery =>
+      select<DocumentProvider, String>((p) => p.searchQuery);
   AppDatabase get db => ogDb;
 }

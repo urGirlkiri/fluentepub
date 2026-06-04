@@ -15,6 +15,19 @@ class RecentDocuments extends StatefulWidget {
 class _RecentDocumentsState extends State<RecentDocuments> {
   String _selectedSort = Filters.defaultFilter;
 
+  List<Document> _filterDocuments(List<Document> documents, String query) {
+    if (query.isEmpty) return documents;
+
+    final lowerQuery = query.toLowerCase();
+    return documents.where((doc) {
+      return doc.title.toLowerCase().contains(lowerQuery) ||
+          (doc.author ?? '').toLowerCase().contains(lowerQuery) ||
+          (doc.series ?? '').toLowerCase().contains(lowerQuery) ||
+          (doc.tags ?? '').toLowerCase().contains(lowerQuery) ||
+          (doc.publisher ?? '').toLowerCase().contains(lowerQuery);
+    }).toList();
+  }
+
   List<Document> _sortDocuments(List<Document> documents) {
     final sorted = List<Document>.from(documents);
 
@@ -96,13 +109,15 @@ class _RecentDocumentsState extends State<RecentDocuments> {
               );
             }
 
-            final documents = _sortDocuments(snapshot.data!);
+            final searchQuery = context.watchDoc.searchQuery;
+            final filtered = _filterDocuments(snapshot.data!, searchQuery);
+            final documents = _sortDocuments(filtered);
             if (documents.isEmpty) {
               return const SliverToBoxAdapter(
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.all(32.0),
-                    child: Text("No documents match the selected filter."),
+                    child: Text("No documents match your search."),
                   ),
                 ),
               );
