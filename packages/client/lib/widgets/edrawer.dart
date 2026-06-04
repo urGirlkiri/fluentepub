@@ -7,19 +7,25 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 class LinkItem {
   final IconData icon;
   final String name;
+  final String routeName;
 
-  const LinkItem({required this.icon, required this.name});
+  const LinkItem({required this.icon, required this.name, required this.routeName});
 }
 
 class EDrawer extends StatelessWidget {
   static const List<LinkItem> linkItems = [
-    LinkItem(icon: LucideIcons.hardDriveUpload, name: "Cloud Sync"),
+    LinkItem(icon: LucideIcons.hardDriveUpload, name: "Cloud Sync", routeName: Routes.cloudSync),
   ];
   static const List<LinkItem> bottomLinkItems = [
-    LinkItem(icon: LucideIcons.settings, name: "Settings"),
-    LinkItem(icon: LucideIcons.circleQuestionMark, name: "Help & Feedback"),
+    LinkItem(icon: LucideIcons.settings, name: "Settings", routeName: Routes.settings),
+    LinkItem(icon: LucideIcons.circleQuestionMark, name: "Help & Feedback", routeName: Routes.helpFeedback),
   ];
   const EDrawer({super.key});
+
+  void _handleNav(BuildContext context, LinkItem item) {
+    context.pop(); 
+    context.pushNamed(item.routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +55,8 @@ class EDrawer extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: IconButton(
-                        onPressed: Navigator.of(context).pop,
-                        icon: Icon(LucideIcons.x, size: 24),
+                        onPressed: () => context.pop(), 
+                        icon: Icon(LucideIcons.chevronLeft, size: 24),
                       ),
                     ),
                   ],
@@ -69,18 +75,21 @@ class EDrawer extends StatelessWidget {
                   ...linkItems.map(
                     (item) => Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(item.icon, size: 32),
-                          const SizedBox(width: 24),
-                          Text(
-                            item.name,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                      child: GestureDetector(
+                        onTap: () => _handleNav(context, item),
+                        child: Row(
+                          children: [
+                            Icon(item.icon, size: 32),
+                            const SizedBox(width: 24),
+                            Text(
+                              item.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -90,18 +99,21 @@ class EDrawer extends StatelessWidget {
                   ...bottomLinkItems.map(
                     (item) => Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(item.icon, size: 32),
-                          const SizedBox(width: 24),
-                          Text(
-                            item.name,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                      child: GestureDetector(
+                        onTap: () => _handleNav(context, item),
+                        child: Row(
+                          children: [
+                            Icon(item.icon, size: 32),
+                            const SizedBox(width: 24),
+                            Text(
+                              item.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

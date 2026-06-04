@@ -1,5 +1,8 @@
+import 'package:fluentepub/features/cloud_sync/screen.dart';
+import 'package:fluentepub/features/help_feedback/screen.dart';
 import 'package:fluentepub/features/home/screen.dart';
 import 'package:fluentepub/features/new/blank/screen.dart';
+import 'package:fluentepub/features/settings/screen.dart';
 import 'package:fluentepub/features/splash/screen.dart';
 import 'package:fluentepub/features/workspace.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +19,15 @@ class Routes {
 
   static const String workspaceRoute = '/workspace:id';
   static const String workspace = 'workspace';
+
+  static const String settingsRoute = '/settings';
+  static const String settings = 'settings';
+
+  static const String cloudSyncRoute = '/cloud';
+  static const String cloudSync = 'cloudSync';
+
+  static const String helpFeedbackRoute = '/help';
+  static const String helpFeedback = 'helpFeedback';
 }
 
 final router = GoRouter(
@@ -46,6 +58,24 @@ final router = GoRouter(
       name: Routes.newBlankDoc,
       path: Routes.newBlankDocRoute,
       builder: (context, state) => NewBlankDocument(),
+    ),
+
+    GoRoute(
+      name: Routes.settings,
+      path: Routes.settingsRoute,
+      builder: (context, state) => const SettingsScreen(),
+    ),
+
+    GoRoute(
+      name: Routes.cloudSync,
+      path: Routes.cloudSyncRoute,
+      builder: (context, state) => const CloudSyncScreen(),
+    ),
+
+    GoRoute(
+      name: Routes.helpFeedback,
+      path: Routes.helpFeedbackRoute,
+      builder: (context, state) => const HelpFeedbackScreen(),
     ),
   ],
 );
