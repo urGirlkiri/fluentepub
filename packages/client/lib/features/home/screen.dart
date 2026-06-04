@@ -3,6 +3,7 @@ import 'package:fluentepub/config/theme/palette.dart';
 import 'package:fluentepub/features/home/widgets/bottom_nav.dart';
 import 'package:fluentepub/features/home/widgets/new_document/index.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/index.dart';
+import 'package:fluentepub/features/home/widgets/search_bar.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:fluentepub/widgets/logo.dart';
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                 child: SizedBox(
                   height: 50,
                   width: 600,
-                  child: const SearchBar(),
+                  child: const LibSearchBar(),
                 ),
               ),
             ),

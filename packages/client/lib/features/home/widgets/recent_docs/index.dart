@@ -4,6 +4,7 @@ import 'package:fluentepub/database/index.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/card.dart';
 import 'package:fluentepub/features/home/widgets/sort_by.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 class RecentDocuments extends StatefulWidget {
   const RecentDocuments({super.key});
@@ -14,6 +15,14 @@ class RecentDocuments extends StatefulWidget {
 
 class _RecentDocumentsState extends State<RecentDocuments> {
   String _selectedSort = Filters.defaultFilter;
+  late Stream<List<Document>> _documentsStream;
+  final Logger _logger = Logger('RecentDocuments');
+
+  @override
+  void initState() {
+    super.initState();
+    _documentsStream = context.db.select(context.db.documents).watch();
+  }
 
   List<Document> _filterDocuments(List<Document> documents, String query) {
     if (query.isEmpty) return documents;
@@ -55,7 +64,8 @@ class _RecentDocumentsState extends State<RecentDocuments> {
 
   @override
   Widget build(BuildContext context) {
-    final db = context.db;
+    final searchQuery = context.watchDoc.searchQuery;
+    _logger.info('Search query: $searchQuery');
 
     return SliverMainAxisGroup(
       slivers: [
@@ -88,7 +98,7 @@ class _RecentDocumentsState extends State<RecentDocuments> {
           ),
         ),
         StreamBuilder<List<Document>>(
-          stream: db.select(db.documents).watch(),
+          stream: _documentsStream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const SliverToBoxAdapter(
@@ -109,7 +119,6 @@ class _RecentDocumentsState extends State<RecentDocuments> {
               );
             }
 
-            final searchQuery = context.watchDoc.searchQuery;
             final filtered = _filterDocuments(snapshot.data!, searchQuery);
             final documents = _sortDocuments(filtered);
             if (documents.isEmpty) {
@@ -117,7 +126,7 @@ class _RecentDocumentsState extends State<RecentDocuments> {
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.all(32.0),
-                    child: Text("No documents match your search."),
+                    child: Text("No document found."),
                   ),
                 ),
               );
