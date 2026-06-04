@@ -1,5 +1,6 @@
 import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/router.dart';
+import 'package:fluentepub/features/workspace/widgets/editor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
@@ -148,7 +149,7 @@ class _WorkSpaceState extends State<WorkSpace> {
           ],
         ),
       ),
-      body: const Placeholder(),
+      body: const DocEditor(),
     );
   }
 }

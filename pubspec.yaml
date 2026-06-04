@@ -8,3 +8,5 @@ workspace:
   - packages/server
   - packages/shared
   - packages/client
+dependencies:
+  super_editor: ^0.3.0-dev.51
