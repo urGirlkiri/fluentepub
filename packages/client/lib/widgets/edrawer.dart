@@ -3,13 +3,17 @@ import 'package:fluentepub/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const String kLandinDomain = 'https://fluentepub.com';
 
 class LinkItem {
   final IconData icon;
   final String name;
   final String routeName;
+  final String? url;
 
-  const LinkItem({required this.icon, required this.name, required this.routeName});
+  const LinkItem({required this.icon, required this.name, required this.routeName, this.url});
 }
 
 class EDrawer extends StatelessWidget {
@@ -23,8 +27,12 @@ class EDrawer extends StatelessWidget {
   const EDrawer({super.key});
 
   void _handleNav(BuildContext context, LinkItem item) {
-    context.pop(); 
-    context.pushNamed(item.routeName);
+    if (item.url != null) {
+      launchUrl(Uri.parse(item.url!));
+    } else {
+      context.pop();
+      context.pushNamed(item.routeName);
+    }
   }
 
   @override
@@ -55,7 +63,7 @@ class EDrawer extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: IconButton(
-                        onPressed: () => context.pop(), 
+                        onPressed: () => context.pop(),
                         icon: Icon(LucideIcons.chevronLeft, size: 24),
                       ),
                     ),
@@ -127,11 +135,17 @@ class EDrawer extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Privacy Policy'),
+                GestureDetector(
+                  onTap: () => launchUrl(Uri.parse('$kLandinDomain/privacy')),
+                  child: const Text('Privacy Policy'),
+                ),
                 const SizedBox(width: 1),
                 const Icon(LucideIcons.dot),
                 const SizedBox(width: 1),
-                const Text('Terms of Service'),
+                GestureDetector(
+                  onTap: () => launchUrl(Uri.parse('$kLandinDomain/terms')),
+                  child: const Text('Terms of Service'),
+                ),
               ],
             ),
           ),
