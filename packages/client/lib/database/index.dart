@@ -4,6 +4,7 @@ import 'package:fluentepub/database/tables/documents.dart';
 import 'package:fluentepub/database/tables/readings.dart';
 import 'package:fluentepub/database/tables/workings.dart';
 import 'connection/index.dart' as connection;
+import 'seed.dart';
 
 part 'index.g.dart';
 
@@ -13,6 +14,24 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 4;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (Migrator m, int from, int to) async {
+      if (from < 2) {
+        await m.createTable(readings);
+        await m.createTable(workings);
+      }
+      if (from < 4) {
+        await m.addColumn(documents, documents.dateAdded);
+        await m.addColumn(documents, documents.dateCreated);
+      }
+    },
+    onCreate: (Migrator m) async {
+      await m.createAll();
+      seedDatabase(this);
+    },
+  );
 
   Stream<List<FluentDoc>> watchFluentDoc() {
     final query = select(documents).join([
@@ -54,47 +73,5 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  @override
-  MigrationStrategy get migration {
-    return MigrationStrategy(
-      onUpgrade: (Migrator m, int from, int to) async {
-        if (from < 2) {
-          await m.createTable(readings);
-          await m.createTable(workings);
-        }
-      },
-      onCreate: (Migrator m) async {
-        await m.createAll();
-
-        await into(documents).insert(
-          DocumentsCompanion.insert(
-            title: "Kai's Genesis",
-            author: const Value('Gm'),
-            coverUrl: const Value('assets/images/kai.png'),
-            rtl: const Value(false),
-          ),
-        );
-
-        await into(documents).insert(
-          DocumentsCompanion.insert(
-            title: 'Reverend Insanity',
-            author: const Value('Gu Zhen Ren'),
-            coverUrl: const Value('assets/images/rev.jpeg'),
-            series: const Value('Book 1'),
-            tags: const Value('Fantasy, Xianxia'),
-            rtl: const Value(false),
-          ),
-        );
-
-        await into(documents).insert(
-          DocumentsCompanion.insert(
-            title: 'FluentEpub Documentation',
-            author: const Value('Kiri'),
-            publisher: const Value('YSWS'),
-            rtl: const Value(false),
-          ),
-        );
-      },
-    );
-  }
+ 
 }
