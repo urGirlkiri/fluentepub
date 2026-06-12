@@ -30,7 +30,7 @@ class SortBy extends StatelessWidget {
         requestFocusOnTap: false,
         enableSearch: false,
         enableFilter: false,
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           border: InputBorder.none,
           outlineBorder: BorderSide.none,
           activeIndicatorBorder: BorderSide.none,

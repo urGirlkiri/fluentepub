@@ -50,7 +50,7 @@ class EDrawer extends StatelessWidget {
                 height: 100,
                 child: Row(
                   children: [
-                    Logo(size: 48),
+                    const Logo(size: 48),
                     const SizedBox(width: 12),
                     const Text(
                       'Fluent Epub',
@@ -64,7 +64,7 @@ class EDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: IconButton(
                         onPressed: () => context.pop(),
-                        icon: Icon(LucideIcons.chevronLeft, size: 24),
+                        icon: const Icon(LucideIcons.chevronLeft, size: 24),
                       ),
                     ),
                   ],

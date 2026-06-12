@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class HomeScreen extends StatelessWidget {
-  static Palette palette = Palette();
+  static Palette palette = const Palette();
   const HomeScreen({super.key});
 
   void _showComingSoon(BuildContext context, String feature) {
@@ -26,21 +26,21 @@ class HomeScreen extends StatelessWidget {
     bool isDarkMode = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      drawer: EDrawer(),
+      drawer: const EDrawer(),
       appBar: AppBar(
-        leading: EDrawerButton(),
-        title: Row(
+        leading: const EDrawerButton(),
+        title: const Row(
           children: [
             Logo(size: 48),
-            const SizedBox(width: 12),
-            const Text('Fluent Epub'),
-            const SizedBox(width: 8),
+            SizedBox(width: 12),
+            Text('Fluent Epub'),
+            SizedBox(width: 8),
             Expanded(
               child: Center(
                 child: SizedBox(
                   height: 50,
                   width: 600,
-                  child: const LibSearchBar(),
+                  child: LibSearchBar(),
                 ),
               ),
             ),
@@ -52,12 +52,12 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                  icon: Icon(LucideIcons.layoutGrid, size: 32),
+                  icon: const Icon(LucideIcons.layoutGrid, size: 32),
                   onPressed: () => _showComingSoon(context, 'Grid View'),
                 ),
                 const SizedBox(width: 12),
                 IconButton(
-                  icon: Icon(LucideIcons.layoutList, size: 32),
+                  icon: const Icon(LucideIcons.layoutList, size: 32),
                   onPressed: () => _showComingSoon(context, 'List View'),
                 ),
                 const SizedBox(width: 12),
@@ -79,12 +79,12 @@ class HomeScreen extends StatelessWidget {
         ],
         toolbarHeight: 100.0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
+      body: const Padding(
+        padding: EdgeInsets.only(left: 24, top: 32, bottom: 16),
         child: CustomScrollView(
           slivers: [
-            const SliverToBoxAdapter(child: NewDocument()),
-            const SliverToBoxAdapter(child: SizedBox(height: 40)),
+            SliverToBoxAdapter(child: NewDocument()),
+            SliverToBoxAdapter(child: SizedBox(height: 40)),
             RecentDocuments(),
           ],
         ),

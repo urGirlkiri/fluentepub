@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class NewDocument extends StatelessWidget {
-  static Palette palette = Palette();
+  static Palette palette = const Palette();
 
   const NewDocument({super.key});
 
@@ -64,11 +64,11 @@ class NewDocument extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
+                const Column(
                   children: [
-                    const NewCard(),
-                    const SizedBox(height: 8),
-                    const Text(
+                    NewCard(),
+                    SizedBox(height: 8),
+                    Text(
                       'Blank Document',
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
@@ -113,7 +113,7 @@ class NewDocument extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(right: 16),
                     child: GestureDetector(
-                      onTap: () => _showComingSoon(context, template['title']),
+                      onTap: () => _showComingSoon(context, template['title'] as String),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -131,7 +131,7 @@ class NewDocument extends StatelessWidget {
                               gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: template['gradient'],
+                                colors: template['gradient'] as List<Color>,
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -169,7 +169,7 @@ class NewDocument extends StatelessWidget {
                                 ),
                                 Center(
                                   child: Icon(
-                                    template['icon'],
+                                    template['icon'] as IconData?,
                                     size: 56,
                                     color: Colors.white.withValues(alpha: .85),
                                   ),
@@ -179,7 +179,7 @@ class NewDocument extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            template['title'],
+                            template['title'] as String,
                             style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ],

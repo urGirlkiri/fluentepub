@@ -13,7 +13,7 @@ class _EDrawerButtonState extends State<EDrawerButton> {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () => Scaffold.of(context).openDrawer(),
-      icon: Icon(LucideIcons.menu, size: 40),
+      icon: const Icon(LucideIcons.menu, size: 40),
     );
   }
 }

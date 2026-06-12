@@ -59,7 +59,7 @@ class _WorkSpaceState extends State<WorkSpace> {
           children: [
             ElevatedButton(
               onPressed: () => context.goNamed(Routes.home),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(LucideIcons.squareLibrary, size: 24),
                   SizedBox(width: 12),
@@ -67,10 +67,10 @@ class _WorkSpaceState extends State<WorkSpace> {
                 ],
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             ElevatedButton(
               onPressed: () => _showComingSoon('Table of Contents'),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(LucideIcons.list, size: 24),
                   SizedBox(width: 12),
@@ -78,10 +78,10 @@ class _WorkSpaceState extends State<WorkSpace> {
                 ],
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             ElevatedButton(
               onPressed: () => _showComingSoon('Note Taking'),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(LucideIcons.messageSquareText, size: 24),
                   SizedBox(width: 12),
@@ -89,10 +89,10 @@ class _WorkSpaceState extends State<WorkSpace> {
                 ],
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             ElevatedButton(
               onPressed: () => _showComingSoon('Bookmarking'),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(LucideIcons.bookmark, size: 24),
                   SizedBox(width: 12),
@@ -100,21 +100,21 @@ class _WorkSpaceState extends State<WorkSpace> {
                 ],
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             ElevatedButton(
               onPressed: () => _showComingSoon('Searching'),
-              child: Row(children: [Icon(LucideIcons.textSearch, size: 24)]),
+              child: const Row(children: [Icon(LucideIcons.textSearch, size: 24)]),
             ),
 
             const Spacer(),
             Text(
               currentBook.title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const Spacer(),
             ElevatedButton(
               onPressed: () => _showComingSoon('Voice Reader'),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(LucideIcons.audioLines, size: 24),
                   SizedBox(width: 12),
@@ -122,26 +122,26 @@ class _WorkSpaceState extends State<WorkSpace> {
                 ],
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             IconButton(
               onPressed: () => _showComingSoon('Volume'),
-              icon: Icon(LucideIcons.volume2, size: 24),
+              icon: const Icon(LucideIcons.volume2, size: 24),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             IconButton(
               onPressed: () => _showComingSoon('Full Screen'),
-              icon: Icon(LucideIcons.maximize, size: 24),
+              icon: const Icon(LucideIcons.maximize, size: 24),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             IconButton(
               onPressed: () => _showComingSoon('Settings'),
-              icon: Icon(LucideIcons.settings, size: 24),
+              icon: const Icon(LucideIcons.settings, size: 24),
             ),
-            SizedBox(width: 12),
-            VerticalDivider(),
+            const SizedBox(width: 12),
+            const VerticalDivider(),
             IconButton(
               onPressed: () => _showComingSoon('Exporting'),
-              icon: Icon(LucideIcons.download, size: 24),
+              icon: const Icon(LucideIcons.download, size: 24),
             ),
           ],
         ),

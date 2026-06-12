@@ -41,7 +41,7 @@ final router = GoRouter(
     GoRoute(
       name: Routes.home,
       path: Routes.homeRoute,
-      builder: (context, state) => HomeScreen(),
+      builder: (context, state) => const HomeScreen(),
     ),
 
     GoRoute(
@@ -57,7 +57,7 @@ final router = GoRouter(
     GoRoute(
       name: Routes.newBlankDoc,
       path: Routes.newBlankDocRoute,
-      builder: (context, state) => NewBlankDocument(),
+      builder: (context, state) => const NewBlankDocument(),
     ),
 
     GoRoute(

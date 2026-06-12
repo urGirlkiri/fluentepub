@@ -21,16 +21,16 @@ class BottomNav extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Row(
                       children: [
                         Text(
                           selectedDoc.title,
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
-                        VerticalDivider(),
+                        const VerticalDivider(),
                         selectedDoc.totalPages == 0
                             ? Text(
                                     'Empty',
@@ -42,7 +42,7 @@ class BottomNav extends StatelessWidget {
                                 children: [
                                   Text(
                                     'p.${selectedDoc.lastPage}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -52,7 +52,7 @@ class BottomNav extends StatelessWidget {
                                       color: theme.colorScheme.primary,
                                     ),
                                   ),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   Text(
                                     '${selectedDoc.totalPages}',
                                     style: TextStyle(
@@ -72,7 +72,7 @@ class BottomNav extends StatelessWidget {
                       Routes.workspace,
                       pathParameters: {'id': selectedDoc.id.toString()},
                     ),
-                    child: SizedBox(
+                    child: const SizedBox(
                       height: 80,
                       child: Row(
                         children: [

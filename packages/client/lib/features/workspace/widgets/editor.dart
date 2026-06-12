@@ -22,7 +22,7 @@ class _DocEditorState extends State<DocEditor> {
         ParagraphNode(
           id: Editor.createNodeId(),
           text: AttributedText('Hello there'),
-          metadata: {
+          metadata: const {
             'blockType': header1Attribution, 
           },
         ),
@@ -70,7 +70,7 @@ class _DocEditorState extends State<DocEditor> {
           },
         ),
         StyleRule(
-          BlockSelector("blockquote"),
+          const BlockSelector("blockquote"),
           (doc, node) => {
             "textStyle": TextStyle(
               color: colorScheme.onSurface.withValues(alpha: 0.8),
@@ -79,7 +79,7 @@ class _DocEditorState extends State<DocEditor> {
           },
         ),
         StyleRule(
-          BlockSelector("code"),
+          const BlockSelector("code"),
           (doc, node) => {
             "textStyle": TextStyle(
               color: colorScheme.onSurface,

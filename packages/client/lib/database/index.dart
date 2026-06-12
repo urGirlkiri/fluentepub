@@ -69,29 +69,29 @@ class AppDatabase extends _$AppDatabase {
         await into(documents).insert(
           DocumentsCompanion.insert(
             title: "Kai's Genesis",
-            author: Value('Gm'),
-            coverUrl: Value('assets/images/kai.png'),
-            rtl: Value(false),
+            author: const Value('Gm'),
+            coverUrl: const Value('assets/images/kai.png'),
+            rtl: const Value(false),
           ),
         );
 
         await into(documents).insert(
           DocumentsCompanion.insert(
             title: 'Reverend Insanity',
-            author: Value('Gu Zhen Ren'),
-            coverUrl: Value('assets/images/rev.jpeg'),
-            series: Value('Book 1'),
-            tags: Value('Fantasy, Xianxia'),
-            rtl: Value(false),
+            author: const Value('Gu Zhen Ren'),
+            coverUrl: const Value('assets/images/rev.jpeg'),
+            series: const Value('Book 1'),
+            tags: const Value('Fantasy, Xianxia'),
+            rtl: const Value(false),
           ),
         );
 
         await into(documents).insert(
           DocumentsCompanion.insert(
             title: 'FluentEpub Documentation',
-            author: Value('Kiri'),
-            publisher: Value('YSWS'),
-            rtl: Value(false),
+            author: const Value('Kiri'),
+            publisher: const Value('YSWS'),
+            rtl: const Value(false),
           ),
         );
       },

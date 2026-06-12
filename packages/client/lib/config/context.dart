@@ -15,7 +15,7 @@ extension ContextData on BuildContext {
 
   ColorScheme get colorScheme => theme.colorScheme;
 
-  Palette get palette => Palette();
+  Palette get palette => const Palette();
 
   bool get isDarkMode => theme.brightness == Brightness.dark;
 
