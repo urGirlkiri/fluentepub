@@ -22,6 +22,9 @@ class FluentDoc {
   String? get country => document.country;
   bool get rtl => document.rtl;
 
+  DateTime get dateAdded => document.dateAdded;
+  DateTime get dateCreated => document.dateCreated;
+
   bool get favourite => reading?.favourite ?? false;
   double get progress => reading?.progress ?? 0.0;
   DateTime get lastModified => working?.lastModified ?? DateTime.now();

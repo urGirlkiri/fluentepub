@@ -51,9 +51,11 @@ class _RecentDocumentsState extends State<RecentDocuments> {
         sorted.sort((a, b) => b.lastModified.compareTo(a.lastModified));
         break;
       case Filters.lastRead:
-        sorted.sort((a, b) => b.progress.compareTo(a.progress));
+        sorted.sort((a, b) => b.lastRead.compareTo(a.lastRead));
         break;
       case Filters.recentlyAdded:
+        sorted.sort((a, b) => b.dateAdded.compareTo(a.dateAdded));
+        break;
       default:
         sorted.sort((a, b) => b.lastModified.compareTo(a.lastModified));
         break;

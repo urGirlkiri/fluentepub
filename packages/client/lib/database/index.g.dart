@@ -119,6 +119,30 @@ class $DocumentsTable extends Documents
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _dateAddedMeta = const VerificationMeta(
+    'dateAdded',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dateAdded = GeneratedColumn<DateTime>(
+    'date_added',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _dateCreatedMeta = const VerificationMeta(
+    'dateCreated',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dateCreated = GeneratedColumn<DateTime>(
+    'date_created',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -131,6 +155,8 @@ class $DocumentsTable extends Documents
     publisher,
     country,
     rtl,
+    dateAdded,
+    dateCreated,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -203,6 +229,21 @@ class $DocumentsTable extends Documents
         rtl.isAcceptableOrUnknown(data['rtl']!, _rtlMeta),
       );
     }
+    if (data.containsKey('date_added')) {
+      context.handle(
+        _dateAddedMeta,
+        dateAdded.isAcceptableOrUnknown(data['date_added']!, _dateAddedMeta),
+      );
+    }
+    if (data.containsKey('date_created')) {
+      context.handle(
+        _dateCreatedMeta,
+        dateCreated.isAcceptableOrUnknown(
+          data['date_created']!,
+          _dateCreatedMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -252,6 +293,14 @@ class $DocumentsTable extends Documents
         DriftSqlType.bool,
         data['${effectivePrefix}rtl'],
       )!,
+      dateAdded: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}date_added'],
+      )!,
+      dateCreated: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}date_created'],
+      )!,
     );
   }
 
@@ -272,6 +321,8 @@ class Document extends DataClass implements Insertable<Document> {
   final String? publisher;
   final String? country;
   final bool rtl;
+  final DateTime dateAdded;
+  final DateTime dateCreated;
   const Document({
     required this.id,
     required this.title,
@@ -283,6 +334,8 @@ class Document extends DataClass implements Insertable<Document> {
     this.publisher,
     this.country,
     required this.rtl,
+    required this.dateAdded,
+    required this.dateCreated,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -311,6 +364,8 @@ class Document extends DataClass implements Insertable<Document> {
       map['country'] = Variable<String>(country);
     }
     map['rtl'] = Variable<bool>(rtl);
+    map['date_added'] = Variable<DateTime>(dateAdded);
+    map['date_created'] = Variable<DateTime>(dateCreated);
     return map;
   }
 
@@ -338,6 +393,8 @@ class Document extends DataClass implements Insertable<Document> {
           ? const Value.absent()
           : Value(country),
       rtl: Value(rtl),
+      dateAdded: Value(dateAdded),
+      dateCreated: Value(dateCreated),
     );
   }
 
@@ -357,6 +414,8 @@ class Document extends DataClass implements Insertable<Document> {
       publisher: serializer.fromJson<String?>(json['publisher']),
       country: serializer.fromJson<String?>(json['country']),
       rtl: serializer.fromJson<bool>(json['rtl']),
+      dateAdded: serializer.fromJson<DateTime>(json['dateAdded']),
+      dateCreated: serializer.fromJson<DateTime>(json['dateCreated']),
     );
   }
   @override
@@ -373,6 +432,8 @@ class Document extends DataClass implements Insertable<Document> {
       'publisher': serializer.toJson<String?>(publisher),
       'country': serializer.toJson<String?>(country),
       'rtl': serializer.toJson<bool>(rtl),
+      'dateAdded': serializer.toJson<DateTime>(dateAdded),
+      'dateCreated': serializer.toJson<DateTime>(dateCreated),
     };
   }
 
@@ -387,6 +448,8 @@ class Document extends DataClass implements Insertable<Document> {
     Value<String?> publisher = const Value.absent(),
     Value<String?> country = const Value.absent(),
     bool? rtl,
+    DateTime? dateAdded,
+    DateTime? dateCreated,
   }) => Document(
     id: id ?? this.id,
     title: title ?? this.title,
@@ -398,6 +461,8 @@ class Document extends DataClass implements Insertable<Document> {
     publisher: publisher.present ? publisher.value : this.publisher,
     country: country.present ? country.value : this.country,
     rtl: rtl ?? this.rtl,
+    dateAdded: dateAdded ?? this.dateAdded,
+    dateCreated: dateCreated ?? this.dateCreated,
   );
   Document copyWithCompanion(DocumentsCompanion data) {
     return Document(
@@ -411,6 +476,10 @@ class Document extends DataClass implements Insertable<Document> {
       publisher: data.publisher.present ? data.publisher.value : this.publisher,
       country: data.country.present ? data.country.value : this.country,
       rtl: data.rtl.present ? data.rtl.value : this.rtl,
+      dateAdded: data.dateAdded.present ? data.dateAdded.value : this.dateAdded,
+      dateCreated: data.dateCreated.present
+          ? data.dateCreated.value
+          : this.dateCreated,
     );
   }
 
@@ -426,7 +495,9 @@ class Document extends DataClass implements Insertable<Document> {
           ..write('tags: $tags, ')
           ..write('publisher: $publisher, ')
           ..write('country: $country, ')
-          ..write('rtl: $rtl')
+          ..write('rtl: $rtl, ')
+          ..write('dateAdded: $dateAdded, ')
+          ..write('dateCreated: $dateCreated')
           ..write(')'))
         .toString();
   }
@@ -443,6 +514,8 @@ class Document extends DataClass implements Insertable<Document> {
     publisher,
     country,
     rtl,
+    dateAdded,
+    dateCreated,
   );
   @override
   bool operator ==(Object other) =>
@@ -457,7 +530,9 @@ class Document extends DataClass implements Insertable<Document> {
           other.tags == this.tags &&
           other.publisher == this.publisher &&
           other.country == this.country &&
-          other.rtl == this.rtl);
+          other.rtl == this.rtl &&
+          other.dateAdded == this.dateAdded &&
+          other.dateCreated == this.dateCreated);
 }
 
 class DocumentsCompanion extends UpdateCompanion<Document> {
@@ -471,6 +546,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
   final Value<String?> publisher;
   final Value<String?> country;
   final Value<bool> rtl;
+  final Value<DateTime> dateAdded;
+  final Value<DateTime> dateCreated;
   const DocumentsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -482,6 +559,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     this.publisher = const Value.absent(),
     this.country = const Value.absent(),
     this.rtl = const Value.absent(),
+    this.dateAdded = const Value.absent(),
+    this.dateCreated = const Value.absent(),
   });
   DocumentsCompanion.insert({
     this.id = const Value.absent(),
@@ -494,6 +573,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     this.publisher = const Value.absent(),
     this.country = const Value.absent(),
     this.rtl = const Value.absent(),
+    this.dateAdded = const Value.absent(),
+    this.dateCreated = const Value.absent(),
   }) : title = Value(title);
   static Insertable<Document> custom({
     Expression<int>? id,
@@ -506,6 +587,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Expression<String>? publisher,
     Expression<String>? country,
     Expression<bool>? rtl,
+    Expression<DateTime>? dateAdded,
+    Expression<DateTime>? dateCreated,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -518,6 +601,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       if (publisher != null) 'publisher': publisher,
       if (country != null) 'country': country,
       if (rtl != null) 'rtl': rtl,
+      if (dateAdded != null) 'date_added': dateAdded,
+      if (dateCreated != null) 'date_created': dateCreated,
     });
   }
 
@@ -532,6 +617,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Value<String?>? publisher,
     Value<String?>? country,
     Value<bool>? rtl,
+    Value<DateTime>? dateAdded,
+    Value<DateTime>? dateCreated,
   }) {
     return DocumentsCompanion(
       id: id ?? this.id,
@@ -544,6 +631,8 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       publisher: publisher ?? this.publisher,
       country: country ?? this.country,
       rtl: rtl ?? this.rtl,
+      dateAdded: dateAdded ?? this.dateAdded,
+      dateCreated: dateCreated ?? this.dateCreated,
     );
   }
 
@@ -580,6 +669,12 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     if (rtl.present) {
       map['rtl'] = Variable<bool>(rtl.value);
     }
+    if (dateAdded.present) {
+      map['date_added'] = Variable<DateTime>(dateAdded.value);
+    }
+    if (dateCreated.present) {
+      map['date_created'] = Variable<DateTime>(dateCreated.value);
+    }
     return map;
   }
 
@@ -595,7 +690,9 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
           ..write('tags: $tags, ')
           ..write('publisher: $publisher, ')
           ..write('country: $country, ')
-          ..write('rtl: $rtl')
+          ..write('rtl: $rtl, ')
+          ..write('dateAdded: $dateAdded, ')
+          ..write('dateCreated: $dateCreated')
           ..write(')'))
         .toString();
   }
@@ -1335,6 +1432,8 @@ typedef $$DocumentsTableCreateCompanionBuilder =
       Value<String?> publisher,
       Value<String?> country,
       Value<bool> rtl,
+      Value<DateTime> dateAdded,
+      Value<DateTime> dateCreated,
     });
 typedef $$DocumentsTableUpdateCompanionBuilder =
     DocumentsCompanion Function({
@@ -1348,6 +1447,8 @@ typedef $$DocumentsTableUpdateCompanionBuilder =
       Value<String?> publisher,
       Value<String?> country,
       Value<bool> rtl,
+      Value<DateTime> dateAdded,
+      Value<DateTime> dateCreated,
     });
 
 class $$DocumentsTableFilterComposer
@@ -1406,6 +1507,16 @@ class $$DocumentsTableFilterComposer
 
   ColumnFilters<bool> get rtl => $composableBuilder(
     column: $table.rtl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dateAdded => $composableBuilder(
+    column: $table.dateAdded,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dateCreated => $composableBuilder(
+    column: $table.dateCreated,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -1468,6 +1579,16 @@ class $$DocumentsTableOrderingComposer
     column: $table.rtl,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<DateTime> get dateAdded => $composableBuilder(
+    column: $table.dateAdded,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dateCreated => $composableBuilder(
+    column: $table.dateCreated,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$DocumentsTableAnnotationComposer
@@ -1508,6 +1629,14 @@ class $$DocumentsTableAnnotationComposer
 
   GeneratedColumn<bool> get rtl =>
       $composableBuilder(column: $table.rtl, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dateAdded =>
+      $composableBuilder(column: $table.dateAdded, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dateCreated => $composableBuilder(
+    column: $table.dateCreated,
+    builder: (column) => column,
+  );
 }
 
 class $$DocumentsTableTableManager
@@ -1548,6 +1677,8 @@ class $$DocumentsTableTableManager
                 Value<String?> publisher = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 Value<bool> rtl = const Value.absent(),
+                Value<DateTime> dateAdded = const Value.absent(),
+                Value<DateTime> dateCreated = const Value.absent(),
               }) => DocumentsCompanion(
                 id: id,
                 title: title,
@@ -1559,6 +1690,8 @@ class $$DocumentsTableTableManager
                 publisher: publisher,
                 country: country,
                 rtl: rtl,
+                dateAdded: dateAdded,
+                dateCreated: dateCreated,
               ),
           createCompanionCallback:
               ({
@@ -1572,6 +1705,8 @@ class $$DocumentsTableTableManager
                 Value<String?> publisher = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 Value<bool> rtl = const Value.absent(),
+                Value<DateTime> dateAdded = const Value.absent(),
+                Value<DateTime> dateCreated = const Value.absent(),
               }) => DocumentsCompanion.insert(
                 id: id,
                 title: title,
@@ -1583,6 +1718,8 @@ class $$DocumentsTableTableManager
                 publisher: publisher,
                 country: country,
                 rtl: rtl,
+                dateAdded: dateAdded,
+                dateCreated: dateCreated,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

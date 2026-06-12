@@ -15,4 +15,7 @@ class Documents extends Table {
   TextColumn get country => text().nullable()();
 
   BoolColumn get rtl => boolean().withDefault(const Constant(false))();
+
+  DateTimeColumn get dateAdded => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get dateCreated => dateTime().withDefault(currentDateAndTime)();
 }

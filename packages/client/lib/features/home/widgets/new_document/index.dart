@@ -113,7 +113,8 @@ class NewDocument extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(right: 16),
                     child: GestureDetector(
-                      onTap: () => _showComingSoon(context, template['title'] as String),
+                      onTap: () =>
+                          _showComingSoon(context, template['title'] as String),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
