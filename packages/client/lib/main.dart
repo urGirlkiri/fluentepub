@@ -1,4 +1,4 @@
-import 'package:fluentepub/features/cloud_sync/app/fluent_epub.dart';
+import 'package:fluentepub/app.dart';
 import 'package:fluentepub/config/providers/document.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
