@@ -12,9 +12,9 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(connection.openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
-  Stream<List<FluentDoc>> watchAllDocumentsWithExtras() {
+  Stream<List<FluentDoc>> watchFluentDoc() {
     final query = select(documents).join([
       leftOuterJoin(readings, readings.documentId.equalsExp(documents.id)),
       leftOuterJoin(workings, workings.documentId.equalsExp(documents.id)),

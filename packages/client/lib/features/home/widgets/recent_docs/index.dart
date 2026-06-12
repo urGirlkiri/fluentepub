@@ -21,7 +21,7 @@ class _RecentDocumentsState extends State<RecentDocuments> {
   @override
   void initState() {
     super.initState();
-    _documentsStream = context.db.watchAllDocumentsWithExtras();
+    _documentsStream = context.db.watchFluentDoc();
   }
 
   List<FluentDoc> _filterDocuments(List<FluentDoc> documents, String query) {

@@ -634,34 +634,25 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
     'lastPage',
   );
   @override
-  late final GeneratedColumn<String> lastPage = GeneratedColumn<String>(
+  late final GeneratedColumn<int> lastPage = GeneratedColumn<int>(
     'last_page',
     aliasedName,
-    true,
-    type: DriftSqlType.string,
+    false,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
+    defaultValue: const Constant(0),
   );
-  static const VerificationMeta _totalPageMeta = const VerificationMeta(
-    'totalPage',
+  static const VerificationMeta _totalPagesMeta = const VerificationMeta(
+    'totalPages',
   );
   @override
-  late final GeneratedColumn<String> totalPage = GeneratedColumn<String>(
-    'total_page',
+  late final GeneratedColumn<int> totalPages = GeneratedColumn<int>(
+    'total_pages',
     aliasedName,
-    true,
-    type: DriftSqlType.string,
+    false,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
-  );
-  static const VerificationMeta _lastReadMeta = const VerificationMeta(
-    'lastRead',
-  );
-  @override
-  late final GeneratedColumn<String> lastRead = GeneratedColumn<String>(
-    'last_read',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
   );
   static const VerificationMeta _favouriteMeta = const VerificationMeta(
     'favourite',
@@ -690,15 +681,27 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
     requiredDuringInsert: false,
     defaultValue: const Constant(0.0),
   );
+  static const VerificationMeta _lastReadMeta = const VerificationMeta(
+    'lastRead',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastRead = GeneratedColumn<DateTime>(
+    'last_read',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
     documentId,
     lastPage,
-    totalPage,
-    lastRead,
+    totalPages,
     favourite,
     progress,
+    lastRead,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -729,16 +732,10 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
         lastPage.isAcceptableOrUnknown(data['last_page']!, _lastPageMeta),
       );
     }
-    if (data.containsKey('total_page')) {
+    if (data.containsKey('total_pages')) {
       context.handle(
-        _totalPageMeta,
-        totalPage.isAcceptableOrUnknown(data['total_page']!, _totalPageMeta),
-      );
-    }
-    if (data.containsKey('last_read')) {
-      context.handle(
-        _lastReadMeta,
-        lastRead.isAcceptableOrUnknown(data['last_read']!, _lastReadMeta),
+        _totalPagesMeta,
+        totalPages.isAcceptableOrUnknown(data['total_pages']!, _totalPagesMeta),
       );
     }
     if (data.containsKey('favourite')) {
@@ -751,6 +748,12 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
       context.handle(
         _progressMeta,
         progress.isAcceptableOrUnknown(data['progress']!, _progressMeta),
+      );
+    }
+    if (data.containsKey('last_read')) {
+      context.handle(
+        _lastReadMeta,
+        lastRead.isAcceptableOrUnknown(data['last_read']!, _lastReadMeta),
       );
     }
     return context;
@@ -771,17 +774,13 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
         data['${effectivePrefix}document_id'],
       )!,
       lastPage: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+        DriftSqlType.int,
         data['${effectivePrefix}last_page'],
-      ),
-      totalPage: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}total_page'],
-      ),
-      lastRead: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}last_read'],
-      ),
+      )!,
+      totalPages: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_pages'],
+      )!,
       favourite: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}favourite'],
@@ -789,6 +788,10 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
       progress: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}progress'],
+      )!,
+      lastRead: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_read'],
       )!,
     );
   }
@@ -802,36 +805,30 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
 class Reading extends DataClass implements Insertable<Reading> {
   final int id;
   final int documentId;
-  final String? lastPage;
-  final String? totalPage;
-  final String? lastRead;
+  final int lastPage;
+  final int totalPages;
   final bool favourite;
   final double progress;
+  final DateTime lastRead;
   const Reading({
     required this.id,
     required this.documentId,
-    this.lastPage,
-    this.totalPage,
-    this.lastRead,
+    required this.lastPage,
+    required this.totalPages,
     required this.favourite,
     required this.progress,
+    required this.lastRead,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['document_id'] = Variable<int>(documentId);
-    if (!nullToAbsent || lastPage != null) {
-      map['last_page'] = Variable<String>(lastPage);
-    }
-    if (!nullToAbsent || totalPage != null) {
-      map['total_page'] = Variable<String>(totalPage);
-    }
-    if (!nullToAbsent || lastRead != null) {
-      map['last_read'] = Variable<String>(lastRead);
-    }
+    map['last_page'] = Variable<int>(lastPage);
+    map['total_pages'] = Variable<int>(totalPages);
     map['favourite'] = Variable<bool>(favourite);
     map['progress'] = Variable<double>(progress);
+    map['last_read'] = Variable<DateTime>(lastRead);
     return map;
   }
 
@@ -839,17 +836,11 @@ class Reading extends DataClass implements Insertable<Reading> {
     return ReadingsCompanion(
       id: Value(id),
       documentId: Value(documentId),
-      lastPage: lastPage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastPage),
-      totalPage: totalPage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(totalPage),
-      lastRead: lastRead == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastRead),
+      lastPage: Value(lastPage),
+      totalPages: Value(totalPages),
       favourite: Value(favourite),
       progress: Value(progress),
+      lastRead: Value(lastRead),
     );
   }
 
@@ -861,11 +852,11 @@ class Reading extends DataClass implements Insertable<Reading> {
     return Reading(
       id: serializer.fromJson<int>(json['id']),
       documentId: serializer.fromJson<int>(json['documentId']),
-      lastPage: serializer.fromJson<String?>(json['lastPage']),
-      totalPage: serializer.fromJson<String?>(json['totalPage']),
-      lastRead: serializer.fromJson<String?>(json['lastRead']),
+      lastPage: serializer.fromJson<int>(json['lastPage']),
+      totalPages: serializer.fromJson<int>(json['totalPages']),
       favourite: serializer.fromJson<bool>(json['favourite']),
       progress: serializer.fromJson<double>(json['progress']),
+      lastRead: serializer.fromJson<DateTime>(json['lastRead']),
     );
   }
   @override
@@ -874,30 +865,30 @@ class Reading extends DataClass implements Insertable<Reading> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'documentId': serializer.toJson<int>(documentId),
-      'lastPage': serializer.toJson<String?>(lastPage),
-      'totalPage': serializer.toJson<String?>(totalPage),
-      'lastRead': serializer.toJson<String?>(lastRead),
+      'lastPage': serializer.toJson<int>(lastPage),
+      'totalPages': serializer.toJson<int>(totalPages),
       'favourite': serializer.toJson<bool>(favourite),
       'progress': serializer.toJson<double>(progress),
+      'lastRead': serializer.toJson<DateTime>(lastRead),
     };
   }
 
   Reading copyWith({
     int? id,
     int? documentId,
-    Value<String?> lastPage = const Value.absent(),
-    Value<String?> totalPage = const Value.absent(),
-    Value<String?> lastRead = const Value.absent(),
+    int? lastPage,
+    int? totalPages,
     bool? favourite,
     double? progress,
+    DateTime? lastRead,
   }) => Reading(
     id: id ?? this.id,
     documentId: documentId ?? this.documentId,
-    lastPage: lastPage.present ? lastPage.value : this.lastPage,
-    totalPage: totalPage.present ? totalPage.value : this.totalPage,
-    lastRead: lastRead.present ? lastRead.value : this.lastRead,
+    lastPage: lastPage ?? this.lastPage,
+    totalPages: totalPages ?? this.totalPages,
     favourite: favourite ?? this.favourite,
     progress: progress ?? this.progress,
+    lastRead: lastRead ?? this.lastRead,
   );
   Reading copyWithCompanion(ReadingsCompanion data) {
     return Reading(
@@ -906,10 +897,12 @@ class Reading extends DataClass implements Insertable<Reading> {
           ? data.documentId.value
           : this.documentId,
       lastPage: data.lastPage.present ? data.lastPage.value : this.lastPage,
-      totalPage: data.totalPage.present ? data.totalPage.value : this.totalPage,
-      lastRead: data.lastRead.present ? data.lastRead.value : this.lastRead,
+      totalPages: data.totalPages.present
+          ? data.totalPages.value
+          : this.totalPages,
       favourite: data.favourite.present ? data.favourite.value : this.favourite,
       progress: data.progress.present ? data.progress.value : this.progress,
+      lastRead: data.lastRead.present ? data.lastRead.value : this.lastRead,
     );
   }
 
@@ -919,10 +912,10 @@ class Reading extends DataClass implements Insertable<Reading> {
           ..write('id: $id, ')
           ..write('documentId: $documentId, ')
           ..write('lastPage: $lastPage, ')
-          ..write('totalPage: $totalPage, ')
-          ..write('lastRead: $lastRead, ')
+          ..write('totalPages: $totalPages, ')
           ..write('favourite: $favourite, ')
-          ..write('progress: $progress')
+          ..write('progress: $progress, ')
+          ..write('lastRead: $lastRead')
           ..write(')'))
         .toString();
   }
@@ -932,10 +925,10 @@ class Reading extends DataClass implements Insertable<Reading> {
     id,
     documentId,
     lastPage,
-    totalPage,
-    lastRead,
+    totalPages,
     favourite,
     progress,
+    lastRead,
   );
   @override
   bool operator ==(Object other) =>
@@ -944,75 +937,75 @@ class Reading extends DataClass implements Insertable<Reading> {
           other.id == this.id &&
           other.documentId == this.documentId &&
           other.lastPage == this.lastPage &&
-          other.totalPage == this.totalPage &&
-          other.lastRead == this.lastRead &&
+          other.totalPages == this.totalPages &&
           other.favourite == this.favourite &&
-          other.progress == this.progress);
+          other.progress == this.progress &&
+          other.lastRead == this.lastRead);
 }
 
 class ReadingsCompanion extends UpdateCompanion<Reading> {
   final Value<int> id;
   final Value<int> documentId;
-  final Value<String?> lastPage;
-  final Value<String?> totalPage;
-  final Value<String?> lastRead;
+  final Value<int> lastPage;
+  final Value<int> totalPages;
   final Value<bool> favourite;
   final Value<double> progress;
+  final Value<DateTime> lastRead;
   const ReadingsCompanion({
     this.id = const Value.absent(),
     this.documentId = const Value.absent(),
     this.lastPage = const Value.absent(),
-    this.totalPage = const Value.absent(),
-    this.lastRead = const Value.absent(),
+    this.totalPages = const Value.absent(),
     this.favourite = const Value.absent(),
     this.progress = const Value.absent(),
+    this.lastRead = const Value.absent(),
   });
   ReadingsCompanion.insert({
     this.id = const Value.absent(),
     required int documentId,
     this.lastPage = const Value.absent(),
-    this.totalPage = const Value.absent(),
-    this.lastRead = const Value.absent(),
+    this.totalPages = const Value.absent(),
     this.favourite = const Value.absent(),
     this.progress = const Value.absent(),
+    this.lastRead = const Value.absent(),
   }) : documentId = Value(documentId);
   static Insertable<Reading> custom({
     Expression<int>? id,
     Expression<int>? documentId,
-    Expression<String>? lastPage,
-    Expression<String>? totalPage,
-    Expression<String>? lastRead,
+    Expression<int>? lastPage,
+    Expression<int>? totalPages,
     Expression<bool>? favourite,
     Expression<double>? progress,
+    Expression<DateTime>? lastRead,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (documentId != null) 'document_id': documentId,
       if (lastPage != null) 'last_page': lastPage,
-      if (totalPage != null) 'total_page': totalPage,
-      if (lastRead != null) 'last_read': lastRead,
+      if (totalPages != null) 'total_pages': totalPages,
       if (favourite != null) 'favourite': favourite,
       if (progress != null) 'progress': progress,
+      if (lastRead != null) 'last_read': lastRead,
     });
   }
 
   ReadingsCompanion copyWith({
     Value<int>? id,
     Value<int>? documentId,
-    Value<String?>? lastPage,
-    Value<String?>? totalPage,
-    Value<String?>? lastRead,
+    Value<int>? lastPage,
+    Value<int>? totalPages,
     Value<bool>? favourite,
     Value<double>? progress,
+    Value<DateTime>? lastRead,
   }) {
     return ReadingsCompanion(
       id: id ?? this.id,
       documentId: documentId ?? this.documentId,
       lastPage: lastPage ?? this.lastPage,
-      totalPage: totalPage ?? this.totalPage,
-      lastRead: lastRead ?? this.lastRead,
+      totalPages: totalPages ?? this.totalPages,
       favourite: favourite ?? this.favourite,
       progress: progress ?? this.progress,
+      lastRead: lastRead ?? this.lastRead,
     );
   }
 
@@ -1026,19 +1019,19 @@ class ReadingsCompanion extends UpdateCompanion<Reading> {
       map['document_id'] = Variable<int>(documentId.value);
     }
     if (lastPage.present) {
-      map['last_page'] = Variable<String>(lastPage.value);
+      map['last_page'] = Variable<int>(lastPage.value);
     }
-    if (totalPage.present) {
-      map['total_page'] = Variable<String>(totalPage.value);
-    }
-    if (lastRead.present) {
-      map['last_read'] = Variable<String>(lastRead.value);
+    if (totalPages.present) {
+      map['total_pages'] = Variable<int>(totalPages.value);
     }
     if (favourite.present) {
       map['favourite'] = Variable<bool>(favourite.value);
     }
     if (progress.present) {
       map['progress'] = Variable<double>(progress.value);
+    }
+    if (lastRead.present) {
+      map['last_read'] = Variable<DateTime>(lastRead.value);
     }
     return map;
   }
@@ -1049,10 +1042,10 @@ class ReadingsCompanion extends UpdateCompanion<Reading> {
           ..write('id: $id, ')
           ..write('documentId: $documentId, ')
           ..write('lastPage: $lastPage, ')
-          ..write('totalPage: $totalPage, ')
-          ..write('lastRead: $lastRead, ')
+          ..write('totalPages: $totalPages, ')
           ..write('favourite: $favourite, ')
-          ..write('progress: $progress')
+          ..write('progress: $progress, ')
+          ..write('lastRead: $lastRead')
           ..write(')'))
         .toString();
   }
@@ -1617,21 +1610,21 @@ typedef $$ReadingsTableCreateCompanionBuilder =
     ReadingsCompanion Function({
       Value<int> id,
       required int documentId,
-      Value<String?> lastPage,
-      Value<String?> totalPage,
-      Value<String?> lastRead,
+      Value<int> lastPage,
+      Value<int> totalPages,
       Value<bool> favourite,
       Value<double> progress,
+      Value<DateTime> lastRead,
     });
 typedef $$ReadingsTableUpdateCompanionBuilder =
     ReadingsCompanion Function({
       Value<int> id,
       Value<int> documentId,
-      Value<String?> lastPage,
-      Value<String?> totalPage,
-      Value<String?> lastRead,
+      Value<int> lastPage,
+      Value<int> totalPages,
       Value<bool> favourite,
       Value<double> progress,
+      Value<DateTime> lastRead,
     });
 
 class $$ReadingsTableFilterComposer
@@ -1653,18 +1646,13 @@ class $$ReadingsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get lastPage => $composableBuilder(
+  ColumnFilters<int> get lastPage => $composableBuilder(
     column: $table.lastPage,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get totalPage => $composableBuilder(
-    column: $table.totalPage,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get lastRead => $composableBuilder(
-    column: $table.lastRead,
+  ColumnFilters<int> get totalPages => $composableBuilder(
+    column: $table.totalPages,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1675,6 +1663,11 @@ class $$ReadingsTableFilterComposer
 
   ColumnFilters<double> get progress => $composableBuilder(
     column: $table.progress,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastRead => $composableBuilder(
+    column: $table.lastRead,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -1698,18 +1691,13 @@ class $$ReadingsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get lastPage => $composableBuilder(
+  ColumnOrderings<int> get lastPage => $composableBuilder(
     column: $table.lastPage,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get totalPage => $composableBuilder(
-    column: $table.totalPage,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get lastRead => $composableBuilder(
-    column: $table.lastRead,
+  ColumnOrderings<int> get totalPages => $composableBuilder(
+    column: $table.totalPages,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -1720,6 +1708,11 @@ class $$ReadingsTableOrderingComposer
 
   ColumnOrderings<double> get progress => $composableBuilder(
     column: $table.progress,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastRead => $composableBuilder(
+    column: $table.lastRead,
     builder: (column) => ColumnOrderings(column),
   );
 }
@@ -1741,20 +1734,22 @@ class $$ReadingsTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<String> get lastPage =>
+  GeneratedColumn<int> get lastPage =>
       $composableBuilder(column: $table.lastPage, builder: (column) => column);
 
-  GeneratedColumn<String> get totalPage =>
-      $composableBuilder(column: $table.totalPage, builder: (column) => column);
-
-  GeneratedColumn<String> get lastRead =>
-      $composableBuilder(column: $table.lastRead, builder: (column) => column);
+  GeneratedColumn<int> get totalPages => $composableBuilder(
+    column: $table.totalPages,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get favourite =>
       $composableBuilder(column: $table.favourite, builder: (column) => column);
 
   GeneratedColumn<double> get progress =>
       $composableBuilder(column: $table.progress, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastRead =>
+      $composableBuilder(column: $table.lastRead, builder: (column) => column);
 }
 
 class $$ReadingsTableTableManager
@@ -1787,37 +1782,37 @@ class $$ReadingsTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<int> documentId = const Value.absent(),
-                Value<String?> lastPage = const Value.absent(),
-                Value<String?> totalPage = const Value.absent(),
-                Value<String?> lastRead = const Value.absent(),
+                Value<int> lastPage = const Value.absent(),
+                Value<int> totalPages = const Value.absent(),
                 Value<bool> favourite = const Value.absent(),
                 Value<double> progress = const Value.absent(),
+                Value<DateTime> lastRead = const Value.absent(),
               }) => ReadingsCompanion(
                 id: id,
                 documentId: documentId,
                 lastPage: lastPage,
-                totalPage: totalPage,
-                lastRead: lastRead,
+                totalPages: totalPages,
                 favourite: favourite,
                 progress: progress,
+                lastRead: lastRead,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required int documentId,
-                Value<String?> lastPage = const Value.absent(),
-                Value<String?> totalPage = const Value.absent(),
-                Value<String?> lastRead = const Value.absent(),
+                Value<int> lastPage = const Value.absent(),
+                Value<int> totalPages = const Value.absent(),
                 Value<bool> favourite = const Value.absent(),
                 Value<double> progress = const Value.absent(),
+                Value<DateTime> lastRead = const Value.absent(),
               }) => ReadingsCompanion.insert(
                 id: id,
                 documentId: documentId,
                 lastPage: lastPage,
-                totalPage: totalPage,
-                lastRead: lastRead,
+                totalPages: totalPages,
                 favourite: favourite,
                 progress: progress,
+                lastRead: lastRead,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

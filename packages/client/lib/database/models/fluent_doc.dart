@@ -25,4 +25,9 @@ class FluentDoc {
   bool get favourite => reading?.favourite ?? false;
   double get progress => reading?.progress ?? 0.0;
   DateTime get lastModified => working?.lastModified ?? DateTime.now();
+  DateTime get lastRead => reading?.lastRead ?? DateTime.now();
+
+  int get totalPages => reading?.totalPages ?? 0;
+  int get lastPage => reading?.lastPage ?? 0;
+
 }

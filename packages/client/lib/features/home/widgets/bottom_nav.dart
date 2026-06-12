@@ -31,27 +31,36 @@ class BottomNav extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                         VerticalDivider(),
-                        Row(
-                          children: [
-                            Text(
-                              'p.12',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '/',
-                              style: TextStyle(
-                                color: theme.colorScheme.primary,
+                        selectedDoc.totalPages == 0
+                            ? Text(
+                                    'Empty',
+                                    style: TextStyle(
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  )
+                            : Row(
+                                children: [
+                                  Text(
+                                    'p.${selectedDoc.lastPage}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    '/',
+                                    style: TextStyle(
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '${selectedDoc.totalPages}',
+                                    style: TextStyle(
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              '222',
-                              style: TextStyle(
-                                color: theme.colorScheme.primary,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
