@@ -119,45 +119,6 @@ class $DocumentsTable extends Documents
     ),
     defaultValue: const Constant(false),
   );
-  static const VerificationMeta _favouriteMeta = const VerificationMeta(
-    'favourite',
-  );
-  @override
-  late final GeneratedColumn<bool> favourite = GeneratedColumn<bool>(
-    'favourite',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("favourite" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  static const VerificationMeta _progressMeta = const VerificationMeta(
-    'progress',
-  );
-  @override
-  late final GeneratedColumn<double> progress = GeneratedColumn<double>(
-    'progress',
-    aliasedName,
-    false,
-    type: DriftSqlType.double,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0.0),
-  );
-  static const VerificationMeta _lastModifiedMeta = const VerificationMeta(
-    'lastModified',
-  );
-  @override
-  late final GeneratedColumn<DateTime> lastModified = GeneratedColumn<DateTime>(
-    'last_modified',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: currentDateAndTime,
-  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -170,9 +131,6 @@ class $DocumentsTable extends Documents
     publisher,
     country,
     rtl,
-    favourite,
-    progress,
-    lastModified,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -245,27 +203,6 @@ class $DocumentsTable extends Documents
         rtl.isAcceptableOrUnknown(data['rtl']!, _rtlMeta),
       );
     }
-    if (data.containsKey('favourite')) {
-      context.handle(
-        _favouriteMeta,
-        favourite.isAcceptableOrUnknown(data['favourite']!, _favouriteMeta),
-      );
-    }
-    if (data.containsKey('progress')) {
-      context.handle(
-        _progressMeta,
-        progress.isAcceptableOrUnknown(data['progress']!, _progressMeta),
-      );
-    }
-    if (data.containsKey('last_modified')) {
-      context.handle(
-        _lastModifiedMeta,
-        lastModified.isAcceptableOrUnknown(
-          data['last_modified']!,
-          _lastModifiedMeta,
-        ),
-      );
-    }
     return context;
   }
 
@@ -315,18 +252,6 @@ class $DocumentsTable extends Documents
         DriftSqlType.bool,
         data['${effectivePrefix}rtl'],
       )!,
-      favourite: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}favourite'],
-      )!,
-      progress: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}progress'],
-      )!,
-      lastModified: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}last_modified'],
-      )!,
     );
   }
 
@@ -347,9 +272,6 @@ class Document extends DataClass implements Insertable<Document> {
   final String? publisher;
   final String? country;
   final bool rtl;
-  final bool favourite;
-  final double progress;
-  final DateTime lastModified;
   const Document({
     required this.id,
     required this.title,
@@ -361,9 +283,6 @@ class Document extends DataClass implements Insertable<Document> {
     this.publisher,
     this.country,
     required this.rtl,
-    required this.favourite,
-    required this.progress,
-    required this.lastModified,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -392,9 +311,6 @@ class Document extends DataClass implements Insertable<Document> {
       map['country'] = Variable<String>(country);
     }
     map['rtl'] = Variable<bool>(rtl);
-    map['favourite'] = Variable<bool>(favourite);
-    map['progress'] = Variable<double>(progress);
-    map['last_modified'] = Variable<DateTime>(lastModified);
     return map;
   }
 
@@ -422,9 +338,6 @@ class Document extends DataClass implements Insertable<Document> {
           ? const Value.absent()
           : Value(country),
       rtl: Value(rtl),
-      favourite: Value(favourite),
-      progress: Value(progress),
-      lastModified: Value(lastModified),
     );
   }
 
@@ -444,9 +357,6 @@ class Document extends DataClass implements Insertable<Document> {
       publisher: serializer.fromJson<String?>(json['publisher']),
       country: serializer.fromJson<String?>(json['country']),
       rtl: serializer.fromJson<bool>(json['rtl']),
-      favourite: serializer.fromJson<bool>(json['favourite']),
-      progress: serializer.fromJson<double>(json['progress']),
-      lastModified: serializer.fromJson<DateTime>(json['lastModified']),
     );
   }
   @override
@@ -463,9 +373,6 @@ class Document extends DataClass implements Insertable<Document> {
       'publisher': serializer.toJson<String?>(publisher),
       'country': serializer.toJson<String?>(country),
       'rtl': serializer.toJson<bool>(rtl),
-      'favourite': serializer.toJson<bool>(favourite),
-      'progress': serializer.toJson<double>(progress),
-      'lastModified': serializer.toJson<DateTime>(lastModified),
     };
   }
 
@@ -480,9 +387,6 @@ class Document extends DataClass implements Insertable<Document> {
     Value<String?> publisher = const Value.absent(),
     Value<String?> country = const Value.absent(),
     bool? rtl,
-    bool? favourite,
-    double? progress,
-    DateTime? lastModified,
   }) => Document(
     id: id ?? this.id,
     title: title ?? this.title,
@@ -494,9 +398,6 @@ class Document extends DataClass implements Insertable<Document> {
     publisher: publisher.present ? publisher.value : this.publisher,
     country: country.present ? country.value : this.country,
     rtl: rtl ?? this.rtl,
-    favourite: favourite ?? this.favourite,
-    progress: progress ?? this.progress,
-    lastModified: lastModified ?? this.lastModified,
   );
   Document copyWithCompanion(DocumentsCompanion data) {
     return Document(
@@ -510,11 +411,6 @@ class Document extends DataClass implements Insertable<Document> {
       publisher: data.publisher.present ? data.publisher.value : this.publisher,
       country: data.country.present ? data.country.value : this.country,
       rtl: data.rtl.present ? data.rtl.value : this.rtl,
-      favourite: data.favourite.present ? data.favourite.value : this.favourite,
-      progress: data.progress.present ? data.progress.value : this.progress,
-      lastModified: data.lastModified.present
-          ? data.lastModified.value
-          : this.lastModified,
     );
   }
 
@@ -530,10 +426,7 @@ class Document extends DataClass implements Insertable<Document> {
           ..write('tags: $tags, ')
           ..write('publisher: $publisher, ')
           ..write('country: $country, ')
-          ..write('rtl: $rtl, ')
-          ..write('favourite: $favourite, ')
-          ..write('progress: $progress, ')
-          ..write('lastModified: $lastModified')
+          ..write('rtl: $rtl')
           ..write(')'))
         .toString();
   }
@@ -550,9 +443,6 @@ class Document extends DataClass implements Insertable<Document> {
     publisher,
     country,
     rtl,
-    favourite,
-    progress,
-    lastModified,
   );
   @override
   bool operator ==(Object other) =>
@@ -567,10 +457,7 @@ class Document extends DataClass implements Insertable<Document> {
           other.tags == this.tags &&
           other.publisher == this.publisher &&
           other.country == this.country &&
-          other.rtl == this.rtl &&
-          other.favourite == this.favourite &&
-          other.progress == this.progress &&
-          other.lastModified == this.lastModified);
+          other.rtl == this.rtl);
 }
 
 class DocumentsCompanion extends UpdateCompanion<Document> {
@@ -584,9 +471,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
   final Value<String?> publisher;
   final Value<String?> country;
   final Value<bool> rtl;
-  final Value<bool> favourite;
-  final Value<double> progress;
-  final Value<DateTime> lastModified;
   const DocumentsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -598,9 +482,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     this.publisher = const Value.absent(),
     this.country = const Value.absent(),
     this.rtl = const Value.absent(),
-    this.favourite = const Value.absent(),
-    this.progress = const Value.absent(),
-    this.lastModified = const Value.absent(),
   });
   DocumentsCompanion.insert({
     this.id = const Value.absent(),
@@ -613,9 +494,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     this.publisher = const Value.absent(),
     this.country = const Value.absent(),
     this.rtl = const Value.absent(),
-    this.favourite = const Value.absent(),
-    this.progress = const Value.absent(),
-    this.lastModified = const Value.absent(),
   }) : title = Value(title);
   static Insertable<Document> custom({
     Expression<int>? id,
@@ -628,9 +506,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Expression<String>? publisher,
     Expression<String>? country,
     Expression<bool>? rtl,
-    Expression<bool>? favourite,
-    Expression<double>? progress,
-    Expression<DateTime>? lastModified,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -643,9 +518,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       if (publisher != null) 'publisher': publisher,
       if (country != null) 'country': country,
       if (rtl != null) 'rtl': rtl,
-      if (favourite != null) 'favourite': favourite,
-      if (progress != null) 'progress': progress,
-      if (lastModified != null) 'last_modified': lastModified,
     });
   }
 
@@ -660,9 +532,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Value<String?>? publisher,
     Value<String?>? country,
     Value<bool>? rtl,
-    Value<bool>? favourite,
-    Value<double>? progress,
-    Value<DateTime>? lastModified,
   }) {
     return DocumentsCompanion(
       id: id ?? this.id,
@@ -675,9 +544,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       publisher: publisher ?? this.publisher,
       country: country ?? this.country,
       rtl: rtl ?? this.rtl,
-      favourite: favourite ?? this.favourite,
-      progress: progress ?? this.progress,
-      lastModified: lastModified ?? this.lastModified,
     );
   }
 
@@ -714,15 +580,6 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     if (rtl.present) {
       map['rtl'] = Variable<bool>(rtl.value);
     }
-    if (favourite.present) {
-      map['favourite'] = Variable<bool>(favourite.value);
-    }
-    if (progress.present) {
-      map['progress'] = Variable<double>(progress.value);
-    }
-    if (lastModified.present) {
-      map['last_modified'] = Variable<DateTime>(lastModified.value);
-    }
     return map;
   }
 
@@ -738,9 +595,718 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
           ..write('tags: $tags, ')
           ..write('publisher: $publisher, ')
           ..write('country: $country, ')
-          ..write('rtl: $rtl, ')
+          ..write('rtl: $rtl')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReadingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _documentIdMeta = const VerificationMeta(
+    'documentId',
+  );
+  @override
+  late final GeneratedColumn<int> documentId = GeneratedColumn<int>(
+    'document_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastPageMeta = const VerificationMeta(
+    'lastPage',
+  );
+  @override
+  late final GeneratedColumn<String> lastPage = GeneratedColumn<String>(
+    'last_page',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _totalPageMeta = const VerificationMeta(
+    'totalPage',
+  );
+  @override
+  late final GeneratedColumn<String> totalPage = GeneratedColumn<String>(
+    'total_page',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastReadMeta = const VerificationMeta(
+    'lastRead',
+  );
+  @override
+  late final GeneratedColumn<String> lastRead = GeneratedColumn<String>(
+    'last_read',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _favouriteMeta = const VerificationMeta(
+    'favourite',
+  );
+  @override
+  late final GeneratedColumn<bool> favourite = GeneratedColumn<bool>(
+    'favourite',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("favourite" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _progressMeta = const VerificationMeta(
+    'progress',
+  );
+  @override
+  late final GeneratedColumn<double> progress = GeneratedColumn<double>(
+    'progress',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    documentId,
+    lastPage,
+    totalPage,
+    lastRead,
+    favourite,
+    progress,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'readings';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Reading> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('document_id')) {
+      context.handle(
+        _documentIdMeta,
+        documentId.isAcceptableOrUnknown(data['document_id']!, _documentIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_documentIdMeta);
+    }
+    if (data.containsKey('last_page')) {
+      context.handle(
+        _lastPageMeta,
+        lastPage.isAcceptableOrUnknown(data['last_page']!, _lastPageMeta),
+      );
+    }
+    if (data.containsKey('total_page')) {
+      context.handle(
+        _totalPageMeta,
+        totalPage.isAcceptableOrUnknown(data['total_page']!, _totalPageMeta),
+      );
+    }
+    if (data.containsKey('last_read')) {
+      context.handle(
+        _lastReadMeta,
+        lastRead.isAcceptableOrUnknown(data['last_read']!, _lastReadMeta),
+      );
+    }
+    if (data.containsKey('favourite')) {
+      context.handle(
+        _favouriteMeta,
+        favourite.isAcceptableOrUnknown(data['favourite']!, _favouriteMeta),
+      );
+    }
+    if (data.containsKey('progress')) {
+      context.handle(
+        _progressMeta,
+        progress.isAcceptableOrUnknown(data['progress']!, _progressMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Reading map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Reading(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      documentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}document_id'],
+      )!,
+      lastPage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_page'],
+      ),
+      totalPage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}total_page'],
+      ),
+      lastRead: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_read'],
+      ),
+      favourite: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}favourite'],
+      )!,
+      progress: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}progress'],
+      )!,
+    );
+  }
+
+  @override
+  $ReadingsTable createAlias(String alias) {
+    return $ReadingsTable(attachedDatabase, alias);
+  }
+}
+
+class Reading extends DataClass implements Insertable<Reading> {
+  final int id;
+  final int documentId;
+  final String? lastPage;
+  final String? totalPage;
+  final String? lastRead;
+  final bool favourite;
+  final double progress;
+  const Reading({
+    required this.id,
+    required this.documentId,
+    this.lastPage,
+    this.totalPage,
+    this.lastRead,
+    required this.favourite,
+    required this.progress,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['document_id'] = Variable<int>(documentId);
+    if (!nullToAbsent || lastPage != null) {
+      map['last_page'] = Variable<String>(lastPage);
+    }
+    if (!nullToAbsent || totalPage != null) {
+      map['total_page'] = Variable<String>(totalPage);
+    }
+    if (!nullToAbsent || lastRead != null) {
+      map['last_read'] = Variable<String>(lastRead);
+    }
+    map['favourite'] = Variable<bool>(favourite);
+    map['progress'] = Variable<double>(progress);
+    return map;
+  }
+
+  ReadingsCompanion toCompanion(bool nullToAbsent) {
+    return ReadingsCompanion(
+      id: Value(id),
+      documentId: Value(documentId),
+      lastPage: lastPage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastPage),
+      totalPage: totalPage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totalPage),
+      lastRead: lastRead == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastRead),
+      favourite: Value(favourite),
+      progress: Value(progress),
+    );
+  }
+
+  factory Reading.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Reading(
+      id: serializer.fromJson<int>(json['id']),
+      documentId: serializer.fromJson<int>(json['documentId']),
+      lastPage: serializer.fromJson<String?>(json['lastPage']),
+      totalPage: serializer.fromJson<String?>(json['totalPage']),
+      lastRead: serializer.fromJson<String?>(json['lastRead']),
+      favourite: serializer.fromJson<bool>(json['favourite']),
+      progress: serializer.fromJson<double>(json['progress']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'documentId': serializer.toJson<int>(documentId),
+      'lastPage': serializer.toJson<String?>(lastPage),
+      'totalPage': serializer.toJson<String?>(totalPage),
+      'lastRead': serializer.toJson<String?>(lastRead),
+      'favourite': serializer.toJson<bool>(favourite),
+      'progress': serializer.toJson<double>(progress),
+    };
+  }
+
+  Reading copyWith({
+    int? id,
+    int? documentId,
+    Value<String?> lastPage = const Value.absent(),
+    Value<String?> totalPage = const Value.absent(),
+    Value<String?> lastRead = const Value.absent(),
+    bool? favourite,
+    double? progress,
+  }) => Reading(
+    id: id ?? this.id,
+    documentId: documentId ?? this.documentId,
+    lastPage: lastPage.present ? lastPage.value : this.lastPage,
+    totalPage: totalPage.present ? totalPage.value : this.totalPage,
+    lastRead: lastRead.present ? lastRead.value : this.lastRead,
+    favourite: favourite ?? this.favourite,
+    progress: progress ?? this.progress,
+  );
+  Reading copyWithCompanion(ReadingsCompanion data) {
+    return Reading(
+      id: data.id.present ? data.id.value : this.id,
+      documentId: data.documentId.present
+          ? data.documentId.value
+          : this.documentId,
+      lastPage: data.lastPage.present ? data.lastPage.value : this.lastPage,
+      totalPage: data.totalPage.present ? data.totalPage.value : this.totalPage,
+      lastRead: data.lastRead.present ? data.lastRead.value : this.lastRead,
+      favourite: data.favourite.present ? data.favourite.value : this.favourite,
+      progress: data.progress.present ? data.progress.value : this.progress,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Reading(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('lastPage: $lastPage, ')
+          ..write('totalPage: $totalPage, ')
+          ..write('lastRead: $lastRead, ')
           ..write('favourite: $favourite, ')
-          ..write('progress: $progress, ')
+          ..write('progress: $progress')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    documentId,
+    lastPage,
+    totalPage,
+    lastRead,
+    favourite,
+    progress,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Reading &&
+          other.id == this.id &&
+          other.documentId == this.documentId &&
+          other.lastPage == this.lastPage &&
+          other.totalPage == this.totalPage &&
+          other.lastRead == this.lastRead &&
+          other.favourite == this.favourite &&
+          other.progress == this.progress);
+}
+
+class ReadingsCompanion extends UpdateCompanion<Reading> {
+  final Value<int> id;
+  final Value<int> documentId;
+  final Value<String?> lastPage;
+  final Value<String?> totalPage;
+  final Value<String?> lastRead;
+  final Value<bool> favourite;
+  final Value<double> progress;
+  const ReadingsCompanion({
+    this.id = const Value.absent(),
+    this.documentId = const Value.absent(),
+    this.lastPage = const Value.absent(),
+    this.totalPage = const Value.absent(),
+    this.lastRead = const Value.absent(),
+    this.favourite = const Value.absent(),
+    this.progress = const Value.absent(),
+  });
+  ReadingsCompanion.insert({
+    this.id = const Value.absent(),
+    required int documentId,
+    this.lastPage = const Value.absent(),
+    this.totalPage = const Value.absent(),
+    this.lastRead = const Value.absent(),
+    this.favourite = const Value.absent(),
+    this.progress = const Value.absent(),
+  }) : documentId = Value(documentId);
+  static Insertable<Reading> custom({
+    Expression<int>? id,
+    Expression<int>? documentId,
+    Expression<String>? lastPage,
+    Expression<String>? totalPage,
+    Expression<String>? lastRead,
+    Expression<bool>? favourite,
+    Expression<double>? progress,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (documentId != null) 'document_id': documentId,
+      if (lastPage != null) 'last_page': lastPage,
+      if (totalPage != null) 'total_page': totalPage,
+      if (lastRead != null) 'last_read': lastRead,
+      if (favourite != null) 'favourite': favourite,
+      if (progress != null) 'progress': progress,
+    });
+  }
+
+  ReadingsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? documentId,
+    Value<String?>? lastPage,
+    Value<String?>? totalPage,
+    Value<String?>? lastRead,
+    Value<bool>? favourite,
+    Value<double>? progress,
+  }) {
+    return ReadingsCompanion(
+      id: id ?? this.id,
+      documentId: documentId ?? this.documentId,
+      lastPage: lastPage ?? this.lastPage,
+      totalPage: totalPage ?? this.totalPage,
+      lastRead: lastRead ?? this.lastRead,
+      favourite: favourite ?? this.favourite,
+      progress: progress ?? this.progress,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (documentId.present) {
+      map['document_id'] = Variable<int>(documentId.value);
+    }
+    if (lastPage.present) {
+      map['last_page'] = Variable<String>(lastPage.value);
+    }
+    if (totalPage.present) {
+      map['total_page'] = Variable<String>(totalPage.value);
+    }
+    if (lastRead.present) {
+      map['last_read'] = Variable<String>(lastRead.value);
+    }
+    if (favourite.present) {
+      map['favourite'] = Variable<bool>(favourite.value);
+    }
+    if (progress.present) {
+      map['progress'] = Variable<double>(progress.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReadingsCompanion(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('lastPage: $lastPage, ')
+          ..write('totalPage: $totalPage, ')
+          ..write('lastRead: $lastRead, ')
+          ..write('favourite: $favourite, ')
+          ..write('progress: $progress')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $WorkingsTable extends Workings with TableInfo<$WorkingsTable, Working> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WorkingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _documentIdMeta = const VerificationMeta(
+    'documentId',
+  );
+  @override
+  late final GeneratedColumn<int> documentId = GeneratedColumn<int>(
+    'document_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastModifiedMeta = const VerificationMeta(
+    'lastModified',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastModified = GeneratedColumn<DateTime>(
+    'last_modified',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, documentId, lastModified];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'workings';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Working> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('document_id')) {
+      context.handle(
+        _documentIdMeta,
+        documentId.isAcceptableOrUnknown(data['document_id']!, _documentIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_documentIdMeta);
+    }
+    if (data.containsKey('last_modified')) {
+      context.handle(
+        _lastModifiedMeta,
+        lastModified.isAcceptableOrUnknown(
+          data['last_modified']!,
+          _lastModifiedMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Working map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Working(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      documentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}document_id'],
+      )!,
+      lastModified: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_modified'],
+      )!,
+    );
+  }
+
+  @override
+  $WorkingsTable createAlias(String alias) {
+    return $WorkingsTable(attachedDatabase, alias);
+  }
+}
+
+class Working extends DataClass implements Insertable<Working> {
+  final int id;
+  final int documentId;
+  final DateTime lastModified;
+  const Working({
+    required this.id,
+    required this.documentId,
+    required this.lastModified,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['document_id'] = Variable<int>(documentId);
+    map['last_modified'] = Variable<DateTime>(lastModified);
+    return map;
+  }
+
+  WorkingsCompanion toCompanion(bool nullToAbsent) {
+    return WorkingsCompanion(
+      id: Value(id),
+      documentId: Value(documentId),
+      lastModified: Value(lastModified),
+    );
+  }
+
+  factory Working.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Working(
+      id: serializer.fromJson<int>(json['id']),
+      documentId: serializer.fromJson<int>(json['documentId']),
+      lastModified: serializer.fromJson<DateTime>(json['lastModified']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'documentId': serializer.toJson<int>(documentId),
+      'lastModified': serializer.toJson<DateTime>(lastModified),
+    };
+  }
+
+  Working copyWith({int? id, int? documentId, DateTime? lastModified}) =>
+      Working(
+        id: id ?? this.id,
+        documentId: documentId ?? this.documentId,
+        lastModified: lastModified ?? this.lastModified,
+      );
+  Working copyWithCompanion(WorkingsCompanion data) {
+    return Working(
+      id: data.id.present ? data.id.value : this.id,
+      documentId: data.documentId.present
+          ? data.documentId.value
+          : this.documentId,
+      lastModified: data.lastModified.present
+          ? data.lastModified.value
+          : this.lastModified,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Working(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('lastModified: $lastModified')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, documentId, lastModified);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Working &&
+          other.id == this.id &&
+          other.documentId == this.documentId &&
+          other.lastModified == this.lastModified);
+}
+
+class WorkingsCompanion extends UpdateCompanion<Working> {
+  final Value<int> id;
+  final Value<int> documentId;
+  final Value<DateTime> lastModified;
+  const WorkingsCompanion({
+    this.id = const Value.absent(),
+    this.documentId = const Value.absent(),
+    this.lastModified = const Value.absent(),
+  });
+  WorkingsCompanion.insert({
+    this.id = const Value.absent(),
+    required int documentId,
+    this.lastModified = const Value.absent(),
+  }) : documentId = Value(documentId);
+  static Insertable<Working> custom({
+    Expression<int>? id,
+    Expression<int>? documentId,
+    Expression<DateTime>? lastModified,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (documentId != null) 'document_id': documentId,
+      if (lastModified != null) 'last_modified': lastModified,
+    });
+  }
+
+  WorkingsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? documentId,
+    Value<DateTime>? lastModified,
+  }) {
+    return WorkingsCompanion(
+      id: id ?? this.id,
+      documentId: documentId ?? this.documentId,
+      lastModified: lastModified ?? this.lastModified,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (documentId.present) {
+      map['document_id'] = Variable<int>(documentId.value);
+    }
+    if (lastModified.present) {
+      map['last_modified'] = Variable<DateTime>(lastModified.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WorkingsCompanion(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
           ..write('lastModified: $lastModified')
           ..write(')'))
         .toString();
@@ -751,11 +1317,17 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $DocumentsTable documents = $DocumentsTable(this);
+  late final $ReadingsTable readings = $ReadingsTable(this);
+  late final $WorkingsTable workings = $WorkingsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [documents];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    documents,
+    readings,
+    workings,
+  ];
 }
 
 typedef $$DocumentsTableCreateCompanionBuilder =
@@ -770,9 +1342,6 @@ typedef $$DocumentsTableCreateCompanionBuilder =
       Value<String?> publisher,
       Value<String?> country,
       Value<bool> rtl,
-      Value<bool> favourite,
-      Value<double> progress,
-      Value<DateTime> lastModified,
     });
 typedef $$DocumentsTableUpdateCompanionBuilder =
     DocumentsCompanion Function({
@@ -786,9 +1355,6 @@ typedef $$DocumentsTableUpdateCompanionBuilder =
       Value<String?> publisher,
       Value<String?> country,
       Value<bool> rtl,
-      Value<bool> favourite,
-      Value<double> progress,
-      Value<DateTime> lastModified,
     });
 
 class $$DocumentsTableFilterComposer
@@ -847,21 +1413,6 @@ class $$DocumentsTableFilterComposer
 
   ColumnFilters<bool> get rtl => $composableBuilder(
     column: $table.rtl,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get favourite => $composableBuilder(
-    column: $table.favourite,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<double> get progress => $composableBuilder(
-    column: $table.progress,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get lastModified => $composableBuilder(
-    column: $table.lastModified,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -924,21 +1475,6 @@ class $$DocumentsTableOrderingComposer
     column: $table.rtl,
     builder: (column) => ColumnOrderings(column),
   );
-
-  ColumnOrderings<bool> get favourite => $composableBuilder(
-    column: $table.favourite,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<double> get progress => $composableBuilder(
-    column: $table.progress,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get lastModified => $composableBuilder(
-    column: $table.lastModified,
-    builder: (column) => ColumnOrderings(column),
-  );
 }
 
 class $$DocumentsTableAnnotationComposer
@@ -979,17 +1515,6 @@ class $$DocumentsTableAnnotationComposer
 
   GeneratedColumn<bool> get rtl =>
       $composableBuilder(column: $table.rtl, builder: (column) => column);
-
-  GeneratedColumn<bool> get favourite =>
-      $composableBuilder(column: $table.favourite, builder: (column) => column);
-
-  GeneratedColumn<double> get progress =>
-      $composableBuilder(column: $table.progress, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get lastModified => $composableBuilder(
-    column: $table.lastModified,
-    builder: (column) => column,
-  );
 }
 
 class $$DocumentsTableTableManager
@@ -1030,9 +1555,6 @@ class $$DocumentsTableTableManager
                 Value<String?> publisher = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 Value<bool> rtl = const Value.absent(),
-                Value<bool> favourite = const Value.absent(),
-                Value<double> progress = const Value.absent(),
-                Value<DateTime> lastModified = const Value.absent(),
               }) => DocumentsCompanion(
                 id: id,
                 title: title,
@@ -1044,9 +1566,6 @@ class $$DocumentsTableTableManager
                 publisher: publisher,
                 country: country,
                 rtl: rtl,
-                favourite: favourite,
-                progress: progress,
-                lastModified: lastModified,
               ),
           createCompanionCallback:
               ({
@@ -1060,9 +1579,6 @@ class $$DocumentsTableTableManager
                 Value<String?> publisher = const Value.absent(),
                 Value<String?> country = const Value.absent(),
                 Value<bool> rtl = const Value.absent(),
-                Value<bool> favourite = const Value.absent(),
-                Value<double> progress = const Value.absent(),
-                Value<DateTime> lastModified = const Value.absent(),
               }) => DocumentsCompanion.insert(
                 id: id,
                 title: title,
@@ -1074,9 +1590,6 @@ class $$DocumentsTableTableManager
                 publisher: publisher,
                 country: country,
                 rtl: rtl,
-                favourite: favourite,
-                progress: progress,
-                lastModified: lastModified,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -1100,10 +1613,396 @@ typedef $$DocumentsTableProcessedTableManager =
       Document,
       PrefetchHooks Function()
     >;
+typedef $$ReadingsTableCreateCompanionBuilder =
+    ReadingsCompanion Function({
+      Value<int> id,
+      required int documentId,
+      Value<String?> lastPage,
+      Value<String?> totalPage,
+      Value<String?> lastRead,
+      Value<bool> favourite,
+      Value<double> progress,
+    });
+typedef $$ReadingsTableUpdateCompanionBuilder =
+    ReadingsCompanion Function({
+      Value<int> id,
+      Value<int> documentId,
+      Value<String?> lastPage,
+      Value<String?> totalPage,
+      Value<String?> lastRead,
+      Value<bool> favourite,
+      Value<double> progress,
+    });
+
+class $$ReadingsTableFilterComposer
+    extends Composer<_$AppDatabase, $ReadingsTable> {
+  $$ReadingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastPage => $composableBuilder(
+    column: $table.lastPage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get totalPage => $composableBuilder(
+    column: $table.totalPage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastRead => $composableBuilder(
+    column: $table.lastRead,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get favourite => $composableBuilder(
+    column: $table.favourite,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get progress => $composableBuilder(
+    column: $table.progress,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ReadingsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ReadingsTable> {
+  $$ReadingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastPage => $composableBuilder(
+    column: $table.lastPage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get totalPage => $composableBuilder(
+    column: $table.totalPage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastRead => $composableBuilder(
+    column: $table.lastRead,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get favourite => $composableBuilder(
+    column: $table.favourite,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get progress => $composableBuilder(
+    column: $table.progress,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ReadingsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ReadingsTable> {
+  $$ReadingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get lastPage =>
+      $composableBuilder(column: $table.lastPage, builder: (column) => column);
+
+  GeneratedColumn<String> get totalPage =>
+      $composableBuilder(column: $table.totalPage, builder: (column) => column);
+
+  GeneratedColumn<String> get lastRead =>
+      $composableBuilder(column: $table.lastRead, builder: (column) => column);
+
+  GeneratedColumn<bool> get favourite =>
+      $composableBuilder(column: $table.favourite, builder: (column) => column);
+
+  GeneratedColumn<double> get progress =>
+      $composableBuilder(column: $table.progress, builder: (column) => column);
+}
+
+class $$ReadingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ReadingsTable,
+          Reading,
+          $$ReadingsTableFilterComposer,
+          $$ReadingsTableOrderingComposer,
+          $$ReadingsTableAnnotationComposer,
+          $$ReadingsTableCreateCompanionBuilder,
+          $$ReadingsTableUpdateCompanionBuilder,
+          (Reading, BaseReferences<_$AppDatabase, $ReadingsTable, Reading>),
+          Reading,
+          PrefetchHooks Function()
+        > {
+  $$ReadingsTableTableManager(_$AppDatabase db, $ReadingsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReadingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReadingsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReadingsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> documentId = const Value.absent(),
+                Value<String?> lastPage = const Value.absent(),
+                Value<String?> totalPage = const Value.absent(),
+                Value<String?> lastRead = const Value.absent(),
+                Value<bool> favourite = const Value.absent(),
+                Value<double> progress = const Value.absent(),
+              }) => ReadingsCompanion(
+                id: id,
+                documentId: documentId,
+                lastPage: lastPage,
+                totalPage: totalPage,
+                lastRead: lastRead,
+                favourite: favourite,
+                progress: progress,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int documentId,
+                Value<String?> lastPage = const Value.absent(),
+                Value<String?> totalPage = const Value.absent(),
+                Value<String?> lastRead = const Value.absent(),
+                Value<bool> favourite = const Value.absent(),
+                Value<double> progress = const Value.absent(),
+              }) => ReadingsCompanion.insert(
+                id: id,
+                documentId: documentId,
+                lastPage: lastPage,
+                totalPage: totalPage,
+                lastRead: lastRead,
+                favourite: favourite,
+                progress: progress,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ReadingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ReadingsTable,
+      Reading,
+      $$ReadingsTableFilterComposer,
+      $$ReadingsTableOrderingComposer,
+      $$ReadingsTableAnnotationComposer,
+      $$ReadingsTableCreateCompanionBuilder,
+      $$ReadingsTableUpdateCompanionBuilder,
+      (Reading, BaseReferences<_$AppDatabase, $ReadingsTable, Reading>),
+      Reading,
+      PrefetchHooks Function()
+    >;
+typedef $$WorkingsTableCreateCompanionBuilder =
+    WorkingsCompanion Function({
+      Value<int> id,
+      required int documentId,
+      Value<DateTime> lastModified,
+    });
+typedef $$WorkingsTableUpdateCompanionBuilder =
+    WorkingsCompanion Function({
+      Value<int> id,
+      Value<int> documentId,
+      Value<DateTime> lastModified,
+    });
+
+class $$WorkingsTableFilterComposer
+    extends Composer<_$AppDatabase, $WorkingsTable> {
+  $$WorkingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastModified => $composableBuilder(
+    column: $table.lastModified,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$WorkingsTableOrderingComposer
+    extends Composer<_$AppDatabase, $WorkingsTable> {
+  $$WorkingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastModified => $composableBuilder(
+    column: $table.lastModified,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$WorkingsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $WorkingsTable> {
+  $$WorkingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get lastModified => $composableBuilder(
+    column: $table.lastModified,
+    builder: (column) => column,
+  );
+}
+
+class $$WorkingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WorkingsTable,
+          Working,
+          $$WorkingsTableFilterComposer,
+          $$WorkingsTableOrderingComposer,
+          $$WorkingsTableAnnotationComposer,
+          $$WorkingsTableCreateCompanionBuilder,
+          $$WorkingsTableUpdateCompanionBuilder,
+          (Working, BaseReferences<_$AppDatabase, $WorkingsTable, Working>),
+          Working,
+          PrefetchHooks Function()
+        > {
+  $$WorkingsTableTableManager(_$AppDatabase db, $WorkingsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WorkingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WorkingsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WorkingsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> documentId = const Value.absent(),
+                Value<DateTime> lastModified = const Value.absent(),
+              }) => WorkingsCompanion(
+                id: id,
+                documentId: documentId,
+                lastModified: lastModified,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int documentId,
+                Value<DateTime> lastModified = const Value.absent(),
+              }) => WorkingsCompanion.insert(
+                id: id,
+                documentId: documentId,
+                lastModified: lastModified,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$WorkingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WorkingsTable,
+      Working,
+      $$WorkingsTableFilterComposer,
+      $$WorkingsTableOrderingComposer,
+      $$WorkingsTableAnnotationComposer,
+      $$WorkingsTableCreateCompanionBuilder,
+      $$WorkingsTableUpdateCompanionBuilder,
+      (Working, BaseReferences<_$AppDatabase, $WorkingsTable, Working>),
+      Working,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$DocumentsTableTableManager get documents =>
       $$DocumentsTableTableManager(_db, _db.documents);
+  $$ReadingsTableTableManager get readings =>
+      $$ReadingsTableTableManager(_db, _db.readings);
+  $$WorkingsTableTableManager get workings =>
+      $$WorkingsTableTableManager(_db, _db.workings);
 }
