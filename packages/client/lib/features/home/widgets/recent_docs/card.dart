@@ -1,6 +1,6 @@
 import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/router.dart';
-import 'package:fluentepub/database/index.dart';
+import 'package:fluentepub/database/models/fluent_doc.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/cover.dart';
 import 'package:fluentepub/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 class DocCard extends StatelessWidget {
   const DocCard({super.key, required this.novel});
 
-  final Document novel;
+  final FluentDoc novel;
 
   @override
   Widget build(BuildContext context) {

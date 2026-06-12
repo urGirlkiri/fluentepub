@@ -1,6 +1,6 @@
 import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/filters.dart';
-import 'package:fluentepub/database/index.dart';
+import 'package:fluentepub/database/models/fluent_doc.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/card.dart';
 import 'package:fluentepub/features/home/widgets/sort_by.dart';
 import 'package:flutter/material.dart';
@@ -15,16 +15,16 @@ class RecentDocuments extends StatefulWidget {
 
 class _RecentDocumentsState extends State<RecentDocuments> {
   String _selectedSort = Filters.defaultFilter;
-  late Stream<List<Document>> _documentsStream;
+  late Stream<List<FluentDoc>> _documentsStream;
   final Logger _logger = Logger('RecentDocuments');
 
   @override
   void initState() {
     super.initState();
-    _documentsStream = context.db.select(context.db.documents).watch();
+    _documentsStream = context.db.watchAllDocumentsWithExtras();
   }
 
-  List<Document> _filterDocuments(List<Document> documents, String query) {
+  List<FluentDoc> _filterDocuments(List<FluentDoc> documents, String query) {
     if (query.isEmpty) return documents;
 
     final lowerQuery = query.toLowerCase();
@@ -37,8 +37,8 @@ class _RecentDocumentsState extends State<RecentDocuments> {
     }).toList();
   }
 
-  List<Document> _sortDocuments(List<Document> documents) {
-    final sorted = List<Document>.from(documents);
+  List<FluentDoc> _sortDocuments(List<FluentDoc> documents) {
+    final sorted = List<FluentDoc>.from(documents);
 
     switch (_selectedSort) {
       case Filters.titleAZ:
@@ -97,7 +97,7 @@ class _RecentDocumentsState extends State<RecentDocuments> {
             ),
           ),
         ),
-        StreamBuilder<List<Document>>(
+        StreamBuilder<List<FluentDoc>>(
           stream: _documentsStream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

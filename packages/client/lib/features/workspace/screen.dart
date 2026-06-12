@@ -20,10 +20,9 @@ class _WorkSpaceState extends State<WorkSpace> {
   bool _isLoading = true;
 
   void _showComingSoon(String feature) {
-  
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$feature coming soon!')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('$feature coming soon!')));
   }
 
   @override
@@ -36,9 +35,7 @@ class _WorkSpaceState extends State<WorkSpace> {
     final provider = context.readDoc;
 
     if (provider.selectedDocument?.id != widget.documentId) {
-      final docFromDb = await (context.db.select(
-        context.db.documents,
-      )..where((d) => d.id.equals(widget.documentId))).getSingleOrNull();
+      final docFromDb = await context.db.getFluentDocById(widget.documentId);
 
       provider.setDocument(docFromDb);
     }
