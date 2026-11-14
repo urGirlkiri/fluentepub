@@ -1,10 +1,10 @@
+import 'dart:developer' as dev;
+
 import 'package:fluentepub/app.dart';
 import 'package:fluentepub/config/providers/document.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'dart:developer' as dev;
-
 import 'package:provider/provider.dart';
 
 void main() {

@@ -1,5 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:fluentepub/config/router.dart';
+import 'package:fluentepub/config/router/index.dart';
 import 'package:fluentepub/config/theme/dark_theme.dart';
 import 'package:fluentepub/config/theme/light_theme.dart';
 import 'package:flutter/material.dart';
