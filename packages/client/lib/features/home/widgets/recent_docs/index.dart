@@ -3,7 +3,7 @@ import 'package:fluentepub/config/filters.dart';
 import 'package:fluentepub/database/models/fluent_doc.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/card.dart';
 import 'package:fluentepub/features/home/widgets/sort_by.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:logging/logging.dart';
 
 class RecentDocuments extends StatefulWidget {

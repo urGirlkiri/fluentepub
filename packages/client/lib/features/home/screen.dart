@@ -7,7 +7,7 @@ import 'package:fluentepub/features/home/widgets/search_bar.dart';
 import 'package:fluentepub/widgets/edrawer.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:fluentepub/widgets/logo.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class HomeScreen extends StatelessWidget {

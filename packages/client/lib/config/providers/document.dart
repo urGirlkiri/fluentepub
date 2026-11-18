@@ -1,5 +1,5 @@
 import 'package:fluentepub/database/models/fluent_doc.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:logging/logging.dart';
 
 class DocumentProvider extends ChangeNotifier {
