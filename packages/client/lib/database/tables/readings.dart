@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 class Readings extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  IntColumn get documentId => integer()();
+  IntColumn get documentId => integer().unique()();
 
   IntColumn get lastPage => integer().withDefault(const Constant(0))();
   IntColumn get totalPages => integer().withDefault(const Constant(0))();

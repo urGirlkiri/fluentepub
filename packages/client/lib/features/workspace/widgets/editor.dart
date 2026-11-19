@@ -1,9 +1,16 @@
+import 'dart:async';
+
+import 'package:drift/drift.dart';
 import 'package:fluentepub/config/context.dart';
+import 'package:fluentepub/database/index.dart';
+import 'package:logging/logging.dart' as logge;
 import 'package:material_ui/material_ui.dart';
 import 'package:super_editor/super_editor.dart';
 
 class DocEditor extends StatefulWidget {
-  const DocEditor({super.key});
+  const DocEditor({super.key, required this.documentId});
+
+  final int documentId;
 
   @override
   State<DocEditor> createState() => _DocEditorState();
@@ -13,18 +20,18 @@ class _DocEditorState extends State<DocEditor> {
   late final MutableDocument _document;
   late final MutableDocumentComposer _composer;
   late final Editor _editor;
+  Timer? _debounce;
+  final logge.Logger _log = logge.Logger('DocEditor');
 
   @override
   void initState() {
     super.initState();
-  _document = MutableDocument(
+    _document = MutableDocument(
       nodes: [
         ParagraphNode(
           id: Editor.createNodeId(),
           text: AttributedText('Hello there'),
-          metadata: const {
-            'blockType': header1Attribution, 
-          },
+          metadata: const {'blockType': header1Attribution},
         ),
         ParagraphNode(
           id: Editor.createNodeId(),
@@ -38,15 +45,32 @@ class _DocEditorState extends State<DocEditor> {
       ],
     );
     _composer = MutableDocumentComposer();
-    
+
     _editor = createDefaultDocumentEditor(
       document: _document,
       composer: _composer,
+    );
+
+    _log.info('attaching changes listener');
+    _editor.addListener(
+      FunctionalEditListener((changeList) {
+        if (changeList.any((edit) => edit is DocumentEdit)) {
+          _debounce?.cancel();
+          _debounce = Timer(const Duration(seconds: 2), () async {
+            _log.info('Auto-saving change to database...');
+
+            await (context.db.update(context.db.workings)
+                  ..where((t) => t.documentId.equals(widget.documentId)))
+                .write(WorkingsCompanion(lastModified: Value(DateTime.now())));
+          });
+        }
+      }),
     );
   }
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _editor.dispose();
     _composer.dispose();
     _document.dispose();

@@ -2,9 +2,10 @@ import 'package:fluentepub/config/context.dart';
 import 'package:fluentepub/config/router/routes.dart';
 import 'package:fluentepub/database/models/fluent_doc.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/cover.dart';
+import 'package:fluentepub/features/home/widgets/recent_docs/favourite_star.dart';
 import 'package:fluentepub/widgets/progress_bar.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 class DocCard extends StatelessWidget {
   const DocCard({super.key, required this.novel});
@@ -58,12 +59,14 @@ class DocCard extends StatelessWidget {
                     child: CoverImage(imagePath: novel.coverUrl),
                   ),
                 ),
-                if (novel.favourite)
-                  const Positioned(
-                    top: 4,
-                    left: 4,
-                    child: Icon(Icons.star, color: Colors.amber),
+                Positioned(
+                  top: 4,
+                  left: 4,
+                  child: FavouriteStar(
+                    documentId: novel.id,
+                    isFavourite: novel.favourite,
                   ),
+                ),
                 Positioned(
                   left: 10,
                   right: 10,

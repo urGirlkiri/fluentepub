@@ -726,6 +726,7 @@ class $ReadingsTable extends Readings with TableInfo<$ReadingsTable, Reading> {
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _lastPageMeta = const VerificationMeta(
     'lastPage',
@@ -1176,6 +1177,7 @@ class $WorkingsTable extends Workings with TableInfo<$WorkingsTable, Working> {
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _lastModifiedMeta = const VerificationMeta(
     'lastModified',
@@ -1722,7 +1724,16 @@ class $$DocumentsTableTableManager
                 dateCreated: dateCreated,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$DocumentsTable, Document>(table),
+                  BaseReferences<_$AppDatabase, $DocumentsTable, Document>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -1952,7 +1963,16 @@ class $$ReadingsTableTableManager
                 lastRead: lastRead,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$ReadingsTable, Reading>(table),
+                  BaseReferences<_$AppDatabase, $ReadingsTable, Reading>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -2106,7 +2126,16 @@ class $$WorkingsTableTableManager
                 lastModified: lastModified,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<$WorkingsTable, Working>(table),
+                  BaseReferences<_$AppDatabase, $WorkingsTable, Working>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),

@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 
 class Workings extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get documentId => integer()();
+  IntColumn get documentId => integer().unique()();
 
   DateTimeColumn get lastModified =>
       dateTime().withDefault(currentDateAndTime)();
