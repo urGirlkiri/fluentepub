@@ -1,20 +1,11 @@
+import 'package:fluentepub/config/constants.dart';
 import 'package:fluentepub/config/router/routes.dart';
+import 'package:fluentepub/widgets/edrawer/link_item.dart';
 import 'package:fluentepub/widgets/logo.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-const String kLandinDomain = 'https://fluentepub.com';
-
-class LinkItem {
-  final IconData icon;
-  final String name;
-  final String routeName;
-  final String? url;
-
-  const LinkItem({required this.icon, required this.name, required this.routeName, this.url});
-}
 
 class EDrawer extends StatelessWidget {
   static const List<LinkItem> linkItems = [

@@ -4,7 +4,7 @@ import 'package:fluentepub/features/home/widgets/bottom_nav.dart';
 import 'package:fluentepub/features/home/widgets/new_document/index.dart';
 import 'package:fluentepub/features/home/widgets/recent_docs/index.dart';
 import 'package:fluentepub/features/home/widgets/search_bar.dart';
-import 'package:fluentepub/widgets/edrawer.dart';
+import 'package:fluentepub/widgets/edrawer/index.dart';
 import 'package:fluentepub/widgets/edrawer_button.dart';
 import 'package:fluentepub/widgets/logo.dart';
 import 'package:material_ui/material_ui.dart';
