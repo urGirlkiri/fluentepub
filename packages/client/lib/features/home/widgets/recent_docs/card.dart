@@ -60,8 +60,8 @@ class DocCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 4,
-                  left: 4,
+                  top: 18,
+                  right: 18,
                   child: FavouriteStar(
                     documentId: novel.id,
                     isFavourite: novel.favourite,
